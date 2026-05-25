@@ -1,0 +1,4216 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>ELEMENTSJunior — Kinderbetreuung Reservierung</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Montserrat:wght@200;300;400;500;600;700;800&display=swap');
+
+:root {
+  /* Elements Rot — exakt aus dem Logo gezogen */
+  --red1: #d8232a;       /* Logo-Rot */
+  --red2: #e8323a;
+  --red3: #ff4651;
+  --redD: #a01820;
+  --redL: rgba(216,35,42,.14);
+
+  /* Dark Glass Base — leicht ins Rote gezogen */
+  --bg0: #0c0608;
+  --bg1: #18090d;
+  --bg2: #220c12;
+
+  /* Text */
+  --t1: rgba(255,255,255,.96);
+  --t2: rgba(255,255,255,.74);
+  --t3: rgba(255,255,255,.50);
+  --t4: rgba(255,255,255,.34);
+
+  /* Status */
+  --ok:   #34d399;
+  --okL:  rgba(52,211,153,.12);
+  --warn: #fbbf24;
+  --warnL:rgba(251,191,36,.12);
+  --err:  #f87171;
+  --errL: rgba(248,113,113,.14);
+
+  /* Gradients */
+  --grad-red:   linear-gradient(135deg, #ff4651 0%, #e8323a 45%, #d8232a 100%);
+  --grad-red-h: linear-gradient(90deg,  #ff4651 0%, #e8323a 45%, #d8232a 100%);
+  --grad-red-soft: linear-gradient(135deg, rgba(255,70,81,.20), rgba(216,35,42,.12));
+
+  /* Glass */
+  --glass-bg:        rgba(255,255,255,.05);
+  --glass-bg-strong: rgba(255,255,255,.09);
+  --glass-bg-red:    rgba(216,35,42,.12);
+  --glass-border:    rgba(255,255,255,.11);
+  --glass-border-red:rgba(216,35,42,.32);
+  --glass-blur:      blur(28px) saturate(180%);
+  --glass-blur-soft: blur(18px) saturate(150%);
+  --glass-spec:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 0 0 0 1px rgba(255,255,255,.03),
+    0 4px 22px rgba(0,0,0,.32),
+    0 1px 2px rgba(0,0,0,.18);
+  --glass-spec-red:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    inset 0 0 0 1px rgba(216,35,42,.08),
+    0 8px 32px rgba(216,35,42,.18),
+    0 2px 8px rgba(0,0,0,.20);
+
+  /* Easing */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --t-press: 140ms;
+  --t-tip:   180ms;
+  --t-pop:   220ms;
+  --t-modal: 280ms;
+
+  --r:  16px;
+  --rs: 10px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: transparent;
+  color: var(--t1);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ============ ANIMATED MESH BACKGROUND — copied from AeroTAX, red palette ============ */
+.hero-orb{
+  position:absolute;border-radius:50%;
+  filter:blur(55px);opacity:.75;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+  transition:opacity 1.6s ease;
+}
+.orb1{
+  width:85vw;height:85vw;
+  background:radial-gradient(circle,#d8232a 0%,#7a0e1a 50%,transparent 75%);
+  top:-25%;left:-20%;opacity:1;
+  animation:orb1move 60s ease-in-out infinite alternate;
+}
+.orb2{
+  width:75vw;height:75vw;
+  background:radial-gradient(circle,#c8102e 0%,#6a0e16 50%,transparent 75%);
+  top:15%;right:-25%;opacity:1;
+  animation:orb2move 75s ease-in-out infinite alternate;
+}
+.orb3{
+  width:70vw;height:70vw;
+  background:radial-gradient(circle,#e8323a 0%,#7e1418 50%,transparent 75%);
+  bottom:-15%;left:15%;opacity:.95;
+  animation:orb3move 85s ease-in-out infinite alternate;
+}
+.orb4{
+  width:60vw;height:60vw;
+  background:radial-gradient(circle,#cc1d28 0%,#6e1018 50%,transparent 75%);
+  bottom:25%;right:0%;opacity:1;
+  animation:orb4move 65s ease-in-out infinite alternate;
+}
+.orb5{
+  width:50vw;height:50vw;
+  background:radial-gradient(circle,#d92531 0%,#72121c 50%,transparent 75%);
+  top:35%;left:30%;opacity:.92;
+  animation:orb5move 80s ease-in-out infinite alternate;
+}
+.orb6{
+  width:55vw;height:55vw;
+  background:radial-gradient(circle,#b81824 0%,#5a0c14 50%,transparent 75%);
+  top:55%;left:55%;
+  opacity:.95;
+  animation:orb6move 90s ease-in-out infinite alternate;
+}
+.orb7{
+  width:65vw;height:65vw;
+  background:radial-gradient(circle,#1a0306 0%,#0a0103 55%,transparent 70%);
+  top:-15%;right:5%;opacity:.95;
+  animation:orb7move 70s ease-in-out infinite alternate;
+}
+.orb8{
+  width:55vw;height:55vw;
+  background:radial-gradient(circle,#260408 0%,#0c0103 55%,transparent 70%);
+  bottom:-10%;left:-10%;opacity:.85;
+  animation:orb8move 82s ease-in-out infinite alternate;
+}
+.orb9{
+  width:50vw;height:50vw;
+  background:radial-gradient(circle,#180206 0%,#080103 55%,transparent 70%);
+  top:40%;right:35%;opacity:.80;
+  animation:orb9move 78s ease-in-out infinite alternate;
+}
+
+/* Bright foreground orbs (for vivid layer) */
+.bright-orb{
+  position:absolute;border-radius:50%;
+  filter:blur(70px);
+  opacity:.30;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+  pointer-events:none;
+}
+.bo1{
+  width:72vw;height:72vw;
+  background:radial-gradient(circle,#ff8a92 0%,#c8102e 55%,transparent 75%);
+  top:-15%;left:-15%;
+  animation:orb1move 38s ease-in-out infinite alternate;
+}
+.bo2{
+  width:62vw;height:62vw;
+  background:radial-gradient(circle,#ff6f7a 0%,#a01820 55%,transparent 75%);
+  bottom:-10%;right:-15%;
+  animation:orb2move 44s ease-in-out infinite alternate;
+}
+.bo3{
+  width:58vw;height:58vw;
+  background:radial-gradient(circle,#ffaeb4 0%,#d8232a 55%,transparent 75%);
+  top:30%;left:35%;
+  animation:orb3move 50s ease-in-out infinite alternate;
+}
+.bo4{
+  width:48vw;height:48vw;
+  background:radial-gradient(circle,#ffc4ca 0%,#e8323a 55%,transparent 75%);
+  bottom:18%;left:8%;
+  animation:orb4move 42s ease-in-out infinite alternate;
+}
+
+@keyframes orb1move{
+  0%  {transform:translate(0,0) scale(1);}
+  25% {transform:translate(35vw,20vh) scale(1.4);}
+  50% {transform:translate(15vw,-25vh) scale(.7);}
+  75% {transform:translate(-20vw,15vh) scale(1.3);}
+  100%{transform:translate(40vw,8vh) scale(1.15);}
+}
+@keyframes orb2move{
+  0%  {transform:translate(0,0) scale(1);}
+  25% {transform:translate(-35vw,25vh) scale(1.5);}
+  50% {transform:translate(20vw,-30vh) scale(.65);}
+  75% {transform:translate(-25vw,-10vh) scale(1.35);}
+  100%{transform:translate(-40vw,15vh) scale(1.2);}
+}
+@keyframes orb3move{
+  0%  {transform:translate(0,0) scale(1);}
+  20% {transform:translate(40vw,-25vh) scale(1.5);}
+  40% {transform:translate(-20vw,-30vh) scale(.7);}
+  60% {transform:translate(25vw,20vh) scale(1.3);}
+  80% {transform:translate(-30vw,10vh) scale(.85);}
+  100%{transform:translate(-35vw,30vh) scale(1.4);}
+}
+@keyframes orb4move{
+  0%  {transform:translate(0,0) scale(1);}
+  30% {transform:translate(-35vw,-25vh) scale(1.5);}
+  60% {transform:translate(25vw,30vh) scale(.6);}
+  100%{transform:translate(-25vw,-30vh) scale(1.35);}
+}
+@keyframes orb5move{
+  0%  {transform:translate(0,0) scale(1);}
+  25% {transform:translate(30vw,25vh) scale(1.45);}
+  50% {transform:translate(-35vw,-20vh) scale(.7);}
+  75% {transform:translate(20vw,-25vh) scale(1.25);}
+  100%{transform:translate(25vw,-30vh) scale(1.3);}
+}
+@keyframes orb6move{
+  0%  {transform:translate(0,0) scale(1);}
+  30% {transform:translate(-40vw,20vh) scale(1.4);}
+  60% {transform:translate(25vw,-25vh) scale(.7);}
+  100%{transform:translate(-22vw,35vh) scale(1.2);}
+}
+@keyframes orb7move{
+  0%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(-25vw,30vh) scale(1.3);}
+  100%{transform:translate(20vw,-20vh) scale(.85);}
+}
+@keyframes orb8move{
+  0%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(35vw,-25vh) scale(1.25);}
+  100%{transform:translate(-15vw,15vh) scale(.9);}
+}
+@keyframes orb9move{
+  0%{transform:translate(0,0) scale(1);}
+  50%{transform:translate(-30vw,-20vh) scale(1.2);}
+  100%{transform:translate(25vw,30vh) scale(.85);}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orb, .bright-orb { animation: none !important; }
+}
+
+/* ============ Glass System ============ */
+.lg-surface {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-spec);
+  position: relative;
+}
+.lg-surface-red {
+  background: var(--glass-bg-red);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border-red);
+  box-shadow: var(--glass-spec-red);
+  position: relative;
+}
+.lg-sheen { position: relative; overflow: hidden; isolation: isolate; }
+.lg-sheen::before {
+  content: '';
+  position: absolute; inset: -50%;
+  background: linear-gradient(125deg,
+    transparent 35%,
+    rgba(255,255,255,.07) 48%,
+    rgba(255,255,255,.12) 50%,
+    rgba(255,255,255,.07) 52%,
+    transparent 65%);
+  transform: translateX(-110%);
+  pointer-events: none;
+  z-index: 1;
+  transition: transform 700ms var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .lg-sheen:hover::before { transform: translateX(110%); }
+}
+
+.hero-pills .lg-pill { padding: 5px 12px; font-size: 10.5px; }
+.lg-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 16px;
+  border-radius: 980px;
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur-soft);
+  -webkit-backdrop-filter: var(--glass-blur-soft);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.12),
+    0 2px 10px rgba(0,0,0,.20);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--t2);
+  letter-spacing: .02em;
+}
+.lg-pill strong { color: var(--t1); font-weight: 700; }
+.lg-pill.lg-pill-red {
+  background: var(--glass-bg-red);
+  border-color: var(--glass-border-red);
+  color: #fecdd0;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.14),
+    0 2px 14px rgba(216,35,42,.22);
+}
+.lg-pill.lg-pill-red strong { color: #fff; }
+.lg-pill.lg-pill-warn {
+  background: rgba(251,191,36,.12);
+  border-color: rgba(251,191,36,.30);
+  color: #fde68a;
+}
+
+/* ============ Layout ============ */
+.shell {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+}
+
+/* ============ Header ============ */
+header.app-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 22px;
+  margin-bottom: 28px;
+  border-radius: 20px;
+}
+.brand {
+  display: flex; align-items: center; gap: 0;
+  flex-direction: column;
+  cursor: pointer;
+  user-select: none;
+}
+.brand-sub {
+  display: flex; flex-direction: column;
+  align-items: center;
+  border-left: 0;
+  padding-left: 0;
+  margin-left: 0;
+  margin-top: 4px;
+  line-height: 1.2;
+}
+.brand-sub .sb1 {
+  font-size: 11px; font-weight: 500; color: var(--t3);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+/* littleELEMENTS Logo — Original Elements look + "little" prefix */
+.brand-logo {
+  display: flex;
+  align-items: baseline;
+  gap: 0;
+}
+.brand-logo .junior {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 22px;
+  color: var(--red1);
+  letter-spacing: .01em;
+  margin-left: 3px;
+  font-style: italic;
+  transform: translateY(-2px);
+  text-shadow:
+    0 0 14px rgba(216,35,42,.55),
+    0 0 28px rgba(216,35,42,.25);
+}
+.brand-logo .el-wordmark {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 36px;
+  color: rgba(255,255,255,.92);
+  letter-spacing: .05em;
+  display: inline-flex;
+  align-items: baseline;
+}
+.brand-logo .el-wordmark .peak {
+  color: var(--red1);
+  font-weight: 600;
+  display: inline-block;
+  transform: scaleY(1.08);
+  text-shadow:
+    0 0 18px rgba(216,35,42,.65),
+    0 0 36px rgba(216,35,42,.35),
+    0 0 60px rgba(216,35,42,.18);
+}
+.head-cta {
+  display: flex; align-items: center; gap: 10px;
+}
+.head-cancel-btn {
+  padding: 9px 18px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--t2);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-press) var(--ease-out);
+}
+.head-cancel-btn:hover {
+  background: var(--glass-bg-strong);
+  color: var(--t1);
+  border-color: rgba(255,255,255,.20);
+}
+
+/* Hidden access — minimal hint */
+.access-hint {
+  text-align: center;
+  margin-top: 60px;
+  padding: 16px;
+  color: var(--t4);
+  font-size: 10.5px;
+  letter-spacing: .03em;
+}
+.access-hint a {
+  color: var(--t4);
+  text-decoration: none;
+  border-bottom: 1px dotted rgba(255,255,255,.15);
+  transition: color var(--t-press) var(--ease-out);
+}
+.access-hint a:hover { color: var(--t2); }
+
+/* ============ View System ============ */
+.view { display: none; animation: fadeUp .4s var(--ease-out) both; }
+.view.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ Hero ============ */
+.hero {
+  padding: 22px 26px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute;
+  top: -40%; right: -10%;
+  width: 45%; height: 180%;
+  background: radial-gradient(ellipse at center, rgba(216,35,42,.18), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hero > * { position: relative; z-index: 1; }
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 26px);
+  letter-spacing: -.015em;
+  margin-bottom: 6px;
+  line-height: 1.15;
+}
+.hero h1 .accent {
+  background: var(--grad-red-h);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+.hero p {
+  font-size: 13px;
+  color: var(--t2);
+  max-width: 640px;
+  line-height: 1.5;
+}
+.hero-pills {
+  margin-top: 12px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+
+/* ============ Week Bar ============ */
+.week-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.week-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t2);
+  display: flex; align-items: center; gap: 10px;
+}
+.week-title strong {
+  color: var(--t1);
+  font-weight: 700;
+}
+.week-nav {
+  display: flex; gap: 6px;
+}
+.wk-btn {
+  width: 36px; height: 36px;
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg);
+  color: var(--t2);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  display: grid; place-items: center;
+  transition: all var(--t-press) var(--ease-out);
+}
+.wk-btn:hover {
+  background: var(--glass-bg-strong);
+  color: var(--t1);
+  border-color: rgba(216,35,42,.30);
+  box-shadow: 0 2px 12px rgba(216,35,42,.15);
+}
+
+/* ============ Day Tabs + Detail (replaces grid of cards) ============ */
+.day-tabs {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  padding: 6px;
+  margin-bottom: 16px;
+  border-radius: 16px;
+}
+.day-tab {
+  position: relative;
+  padding: 12px 6px 10px;
+  border: 0;
+  background: transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--t2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: all var(--t-press) var(--ease-out);
+  text-align: center;
+}
+.day-tab:hover:not(.active) {
+  background: rgba(255,255,255,.04);
+  color: var(--t1);
+}
+.day-tab.active {
+  background: var(--grad-red);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 4px 14px rgba(216,35,42,.36);
+}
+.day-tab.locked {
+  opacity: .55;
+}
+.day-tab .dt-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.day-tab .dt-day {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+}
+.day-tab .dt-status {
+  font-size: 9.5px;
+  font-weight: 600;
+  margin-top: 2px;
+  color: var(--t3);
+  letter-spacing: .02em;
+}
+.day-tab.active .dt-status,
+.day-tab.active .dt-name { color: rgba(255,255,255,.85); }
+.day-tab .dt-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--ok);
+  margin-top: 3px;
+  box-shadow: 0 0 6px var(--ok);
+}
+.day-tab .dt-dot.warn { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+.day-tab .dt-dot.full { background: var(--err); box-shadow: 0 0 6px var(--err); }
+.day-tab .dt-dot.locked { background: var(--t4); box-shadow: none; }
+.day-tab.active .dt-dot { background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.6); }
+
+/* Detail card */
+.day-detail {
+  padding: 24px 26px;
+  border-radius: 22px;
+  animation: detailIn .35s var(--ease-out) both;
+}
+@keyframes detailIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.dd-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.dd-header-left h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 4px;
+}
+.dd-header-left .dd-date {
+  font-size: 12.5px;
+  color: var(--t3);
+  font-weight: 500;
+}
+.dd-header-right {
+  font-size: 12px;
+  color: var(--t3);
+  text-align: right;
+}
+.dd-header-right strong { color: var(--t1); font-weight: 600; }
+
+.dd-slots {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+.dd-slot {
+  padding: 18px 18px 16px;
+  border-radius: 16px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  cursor: pointer;
+  transition: all var(--t-pop) var(--ease-out);
+  position: relative;
+  overflow: hidden;
+}
+.dd-slot:hover:not(.disabled):not(.full) {
+  background: rgba(216,35,42,.10);
+  border-color: rgba(216,35,42,.32);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(216,35,42,.18);
+}
+.dd-slot.full {
+  cursor: not-allowed;
+  opacity: .55;
+}
+.dd-slot.disabled {
+  cursor: not-allowed;
+  opacity: .55;
+}
+.dd-slot-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.dd-slot-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.dd-slot-status {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.dd-slot-status.free { color: var(--ok); }
+.dd-slot-status.tight { color: var(--warn); }
+.dd-slot-status.full { color: var(--err); }
+.dd-slot-time {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em;
+  margin-bottom: 12px;
+}
+.dd-slot-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px;
+  color: var(--t2);
+}
+.dd-slot-meta .cap-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(255,255,255,.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.dd-slot-meta .cap-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #34d399, #10b981);
+  border-radius: 99px;
+  transition: width .4s var(--ease-out);
+  box-shadow: 0 0 8px rgba(52,211,153,.40);
+}
+.dd-slot-meta .cap-bar-fill.warn {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  box-shadow: 0 0 8px rgba(251,191,36,.40);
+}
+.dd-slot-meta .cap-bar-fill.full {
+  background: linear-gradient(90deg, #ef4444, #b91c1c);
+}
+.dd-slot-meta .cap-num {
+  font-weight: 600;
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-locked {
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(216,35,42,.10), rgba(255,70,81,.04));
+  border: 1px solid rgba(216,35,42,.22);
+  text-align: center;
+}
+.dd-locked-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #fecdd0;
+  margin-bottom: 6px;
+}
+.dd-locked-time {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 6px;
+  letter-spacing: .02em;
+}
+.dd-locked-sub {
+  font-size: 12px;
+  color: var(--t3);
+}
+.dd-empty {
+  padding: 30px 18px;
+  text-align: center;
+  color: var(--t4);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* Mobile day-tabs */
+@media (max-width: 700px) {
+  .day-tabs {
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    padding: 4px;
+  }
+  .day-tab { padding: 10px 2px 8px; }
+  .day-tab .dt-name { font-size: 9.5px; }
+  .day-tab .dt-day { font-size: 16px; }
+  .day-tab .dt-status { display: none; }
+  .dd-slots { grid-template-columns: 1fr; }
+  .day-detail { padding: 18px 16px; }
+}
+
+/* ============ OLD day card grid (deprecated) ============ */
+.days-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.day-card {
+  padding: 20px;
+  border-radius: 18px;
+  transition: transform var(--t-pop) var(--ease-out),
+              border-color var(--t-pop) var(--ease-out),
+              box-shadow var(--t-pop) var(--ease-out);
+}
+.day-card.today {
+  border-color: rgba(216,35,42,.40);
+  background:
+    linear-gradient(180deg, rgba(216,35,42,.10), rgba(255,255,255,.04));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.18),
+    0 4px 22px rgba(216,35,42,.16),
+    0 1px 2px rgba(0,0,0,.18);
+}
+.day-card.past {
+  opacity: .35;
+}
+.day-card.locked {
+  opacity: .65;
+}
+.day-card-head {
+  display: flex; align-items: baseline; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.day-name {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--t1);
+  letter-spacing: -.01em;
+  display: flex; align-items: center; gap: 6px;
+}
+.day-date {
+  font-size: 12px;
+  color: var(--t3);
+  font-weight: 500;
+  margin-top: 2px;
+}
+.today-tag {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: var(--grad-red);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(216,35,42,.40);
+}
+
+/* Lock teaser inside day card — animated, with countdown */
+.lock-teaser {
+  position: relative;
+  margin-bottom: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(216,35,42,.10), rgba(255,70,81,.05));
+  border: 1px solid rgba(216,35,42,.25);
+  overflow: hidden;
+  isolation: isolate;
+}
+.lock-teaser::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg,
+    transparent 30%,
+    rgba(255,70,81,.18) 50%,
+    transparent 70%);
+  transform: translateX(-100%);
+  animation: teaserSweep 3.5s ease-in-out infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+@keyframes teaserSweep {
+  0%   { transform: translateX(-100%); }
+  60%  { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
+.lock-teaser > * { position: relative; z-index: 1; }
+
+.teaser-row {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #fecdd0;
+  margin-bottom: 6px;
+}
+.teaser-row .pulse-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--red3);
+  box-shadow: 0 0 8px var(--red3), 0 0 16px var(--red3);
+  animation: dotPulse 1.6s ease-in-out infinite;
+}
+@keyframes dotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: .4; transform: scale(.85); }
+}
+
+.teaser-preview {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-bottom: 8px;
+}
+.teaser-slot {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: rgba(0,0,0,.30);
+  border: 1px solid rgba(255,255,255,.08);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+}
+.teaser-slot .ts-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.teaser-slot .ts-cap {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--t4);
+  margin-left: 2px;
+}
+
+.countdown {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 8px;
+  border-top: 1px solid rgba(216,35,42,.18);
+}
+.countdown-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--t3);
+}
+.countdown-time {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #fff;
+  letter-spacing: .02em;
+  display: flex; align-items: baseline; gap: 4px;
+  text-shadow: 0 0 12px rgba(216,35,42,.45);
+}
+.countdown-time .ctu {
+  font-size: 10.5px;
+  font-weight: 500;
+  color: var(--t3);
+  margin-right: 4px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* Urgent state — when <1h until open */
+.lock-teaser.urgent {
+  background: linear-gradient(135deg, rgba(216,35,42,.18), rgba(255,70,81,.10));
+  border-color: rgba(216,35,42,.45);
+  animation: urgentGlow 2s ease-in-out infinite;
+}
+@keyframes urgentGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(216,35,42,0); }
+  50% { box-shadow: 0 0 24px rgba(216,35,42,.30), inset 0 0 0 1px rgba(255,70,81,.30); }
+}
+.lock-teaser.urgent .countdown-time {
+  color: #ffb4b8;
+  text-shadow: 0 0 16px rgba(255,70,81,.7);
+  animation: timeBeat 1s ease-in-out infinite;
+}
+@keyframes timeBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes unlockFlip {
+  0%   { transform: scale(1); opacity: 1; }
+  40%  { transform: scale(1.06); opacity: 1; box-shadow: 0 0 40px rgba(52,211,153,.50); background: linear-gradient(135deg, rgba(52,211,153,.20), rgba(52,211,153,.08)); border-color: rgba(52,211,153,.50); }
+  100% { transform: scale(.95); opacity: 0; height: 0; padding: 0; margin: 0; }
+}
+
+/* Past day — neutral, no animation */
+.lock-past {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t4);
+}
+
+.slot-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.06);
+  cursor: pointer;
+  margin-bottom: 8px;
+  transition: all var(--t-press) var(--ease-out);
+}
+.slot-row:last-child { margin-bottom: 0; }
+.slot-row:hover:not(.disabled) {
+  background: rgba(216,35,42,.12);
+  border-color: rgba(216,35,42,.36);
+  transform: translateX(2px);
+  box-shadow: 0 4px 16px rgba(216,35,42,.18);
+}
+.slot-row.disabled {
+  cursor: not-allowed;
+  opacity: .50;
+}
+.slot-row.full {
+  cursor: not-allowed;
+  opacity: .45;
+  background: rgba(0,0,0,.20);
+}
+.slot-info { display: flex; flex-direction: column; gap: 3px; }
+.slot-label {
+  font-size: 12px; font-weight: 700; color: var(--t3);
+  letter-spacing: .06em; text-transform: uppercase;
+}
+.slot-time {
+  font-size: 14.5px; font-weight: 600; color: var(--t1);
+  font-variant-numeric: tabular-nums;
+}
+.slot-cap {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+}
+.cap-bar {
+  width: 52px; height: 6px;
+  background: rgba(255,255,255,.08);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.cap-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #34d399, #10b981);
+  border-radius: 99px;
+  transition: width .4s var(--ease-out);
+  box-shadow: 0 0 8px rgba(52,211,153,.40);
+}
+.cap-bar-fill.warn {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+  box-shadow: 0 0 8px rgba(251,191,36,.40);
+}
+.cap-bar-fill.full {
+  background: linear-gradient(90deg, #ef4444, #b91c1c);
+  box-shadow: 0 0 8px rgba(239,68,68,.40);
+}
+.slot-empty {
+  padding: 16px 14px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--t4);
+  font-style: italic;
+}
+.slot-full-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--err);
+  background: var(--errL);
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+/* ============ Buttons ============ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 12px;
+  border: 0;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-press) var(--ease-out);
+  letter-spacing: -.005em;
+}
+.btn-primary {
+  background: var(--grad-red);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.24),
+    0 4px 18px rgba(216,35,42,.36);
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.30),
+    0 6px 24px rgba(216,35,42,.46);
+}
+.btn-primary:active { transform: translateY(0); }
+.btn-primary:disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  transform: none;
+}
+.btn-ghost {
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur-soft);
+  -webkit-backdrop-filter: var(--glass-blur-soft);
+  border: 1px solid var(--glass-border);
+  color: var(--t1);
+}
+.btn-ghost:hover {
+  background: var(--glass-bg-strong);
+  border-color: rgba(216,35,42,.30);
+}
+.btn-sm { padding: 7px 14px; font-size: 12.5px; }
+.btn-lg { padding: 14px 28px; font-size: 15px; }
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #b91c1c);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.22),
+    0 4px 16px rgba(239,68,68,.30);
+}
+
+/* ============ Modal ============ */
+.modal-backdrop {
+  position: fixed; inset: 0;
+  background: rgba(8,3,5,.74);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: bdFade .25s var(--ease-out);
+}
+.modal-backdrop.open { display: flex; }
+@keyframes bdFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal {
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px;
+  border-radius: 22px;
+  animation: modalIn .35s var(--ease-drawer);
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(20px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.modal h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  letter-spacing: -.01em;
+}
+.modal .sub {
+  font-size: 13px;
+  color: var(--t3);
+  margin-bottom: 22px;
+}
+.modal-close {
+  position: absolute;
+  top: 16px; right: 16px;
+  width: 32px; height: 32px;
+  border: 0;
+  background: rgba(255,255,255,.06);
+  color: var(--t2);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  display: grid; place-items: center;
+  transition: all var(--t-press) var(--ease-out);
+}
+.modal-close:hover {
+  background: rgba(255,255,255,.12);
+  color: var(--t1);
+}
+
+/* ============ Form ============ */
+.field { margin-bottom: 16px; }
+.field label {
+  display: block;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--t2);
+  margin-bottom: 7px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.field input,
+.field select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0,0,0,.30);
+  color: var(--t1);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  transition: all var(--t-press) var(--ease-out);
+}
+.field input:focus,
+.field select:focus {
+  outline: none;
+  border-color: var(--red3);
+  background: rgba(0,0,0,.40);
+  box-shadow: 0 0 0 3px rgba(216,35,42,.20);
+}
+.field input::placeholder { color: var(--t4); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-help {
+  font-size: 11.5px;
+  color: var(--t3);
+  margin-top: 6px;
+  line-height: 1.4;
+}
+.child-row {
+  display: flex; gap: 8px;
+  margin-bottom: 8px;
+}
+.child-row input { flex: 1; }
+.child-row .rm {
+  width: 40px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0,0,0,.30);
+  color: var(--t3);
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all var(--t-press) var(--ease-out);
+}
+.child-row .rm:hover {
+  color: var(--err);
+  border-color: rgba(248,113,113,.40);
+}
+.add-child {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: none;
+  border: 1px dashed var(--glass-border);
+  color: var(--t2);
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  transition: all var(--t-press) var(--ease-out);
+}
+.add-child:hover {
+  color: var(--t1);
+  border-color: rgba(216,35,42,.32);
+  background: rgba(216,35,42,.06);
+}
+
+.cb-field {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0,0,0,.22);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 16px;
+  transition: all var(--t-press) var(--ease-out);
+}
+.cb-field:hover { background: rgba(0,0,0,.30); }
+.cb-field input[type="checkbox"] {
+  width: 18px; height: 18px;
+  margin-top: 1px;
+  cursor: pointer;
+  accent-color: var(--red2);
+}
+.cb-field .cb-text {
+  font-size: 13px;
+  color: var(--t2);
+  line-height: 1.45;
+}
+.cb-field .cb-text strong { color: var(--t1); }
+
+.time-pickers {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.duration-info {
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  margin-top: 8px;
+  border-radius: 10px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  font-size: 12.5px;
+  color: var(--t2);
+}
+.duration-info strong { color: var(--t1); }
+.duration-info.invalid {
+  background: var(--errL);
+  border-color: rgba(248,113,113,.30);
+  color: #fca5a5;
+}
+.duration-info.valid {
+  background: var(--okL);
+  border-color: rgba(52,211,153,.28);
+  color: #a7f3d0;
+}
+
+/* ============ Time Pills (replaces slider) ============ */
+.time-grid-wrap {
+  margin-top: 4px;
+}
+.tg-step {
+  margin-bottom: 14px;
+}
+.tg-step-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 8px;
+}
+.time-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(58px, 1fr));
+  gap: 6px;
+}
+.time-chip {
+  position: relative;
+  padding: 8px 6px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.10);
+  color: var(--t1);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: transform var(--t-press) var(--ease-out),
+              background var(--t-press) var(--ease-out),
+              border-color var(--t-press) var(--ease-out),
+              box-shadow var(--t-press) var(--ease-out);
+  overflow: hidden;
+  text-align: center;
+  letter-spacing: .01em;
+}
+.time-chip:hover:not(.disabled) {
+  background: rgba(216,35,42,.12);
+  border-color: rgba(216,35,42,.36);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(216,35,42,.18);
+}
+.time-chip.selected {
+  background: var(--grad-red);
+  border-color: transparent;
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 4px 14px rgba(216,35,42,.42);
+}
+.time-chip.in-range {
+  background: rgba(216,35,42,.14);
+  border-color: rgba(216,35,42,.28);
+  color: var(--t1);
+}
+.time-chip.disabled {
+  opacity: .35;
+  cursor: not-allowed;
+  background: rgba(255,255,255,.02);
+  border-color: rgba(255,255,255,.06);
+}
+.time-chip.full {
+  opacity: .50;
+  cursor: not-allowed;
+  background: rgba(216,35,42,.06);
+  border-color: rgba(216,35,42,.18);
+  color: var(--t3);
+}
+.time-chip .chip-bar {
+  position: absolute;
+  left: 4px; right: 4px; bottom: 4px;
+  height: 4px;
+  border-radius: 2px;
+  background: rgba(255,255,255,.08);
+  overflow: hidden;
+}
+.time-chip .chip-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #34d399, #10b981);
+  border-radius: 2px;
+  transition: width .3s var(--ease-out);
+}
+.time-chip .chip-bar-fill.warn {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+.time-chip .chip-bar-fill.full {
+  background: linear-gradient(90deg, #ef4444, #b91c1c);
+}
+.time-chip.selected .chip-bar { background: rgba(255,255,255,.20); }
+.time-chip.selected .chip-bar-fill { background: rgba(255,255,255,.85); }
+
+/* Step transition */
+.tg-step {
+  animation: stepIn .25s var(--ease-out) both;
+}
+@keyframes stepIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ Old Timeline (deprecated, kept for safety) ============ */
+.timeline {
+  margin-top: 10px;
+  padding: 16px 14px 8px;
+  border-radius: 14px;
+  background: rgba(0,0,0,.28);
+  border: 1px solid var(--glass-border);
+  position: relative;
+  overflow: hidden;
+}
+.timeline-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 14px;
+}
+.timeline-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.timeline-hint {
+  font-size: 10.5px;
+  color: var(--t4);
+  display: inline-flex; align-items: center; gap: 6px;
+}
+
+.tl-stage {
+  position: relative;
+  height: 90px;
+  user-select: none;
+  touch-action: none;
+  cursor: crosshair;
+}
+.tl-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: calc(100% - 22px);
+  pointer-events: none;
+  overflow: visible;
+}
+.tl-selection {
+  position: absolute;
+  top: 0;
+  bottom: 22px;
+  background: linear-gradient(180deg,
+    rgba(255,70,81,.18) 0%,
+    rgba(216,35,42,.30) 100%);
+  border-left: 2px solid var(--red3);
+  border-right: 2px solid var(--red3);
+  box-shadow:
+    0 0 24px rgba(216,35,42,.45),
+    inset 0 0 0 1px rgba(255,255,255,.06);
+  pointer-events: none;
+  transition: left .12s var(--ease-out), width .12s var(--ease-out);
+  border-radius: 4px;
+  z-index: 2;
+}
+.tl-selection.invalid {
+  background: linear-gradient(180deg,
+    rgba(248,113,113,.18) 0%,
+    rgba(239,68,68,.28) 100%);
+  border-color: var(--err);
+  box-shadow: 0 0 24px rgba(248,113,113,.40);
+  animation: invalidShake .35s var(--ease-out);
+}
+@keyframes invalidShake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-3px); }
+  75% { transform: translateX(3px); }
+}
+.tl-handle {
+  position: absolute;
+  top: -4px;
+  bottom: 18px;
+  width: 14px;
+  margin-left: -7px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, #ff4651, #d8232a);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.30),
+    0 2px 12px rgba(216,35,42,.55);
+  cursor: ew-resize;
+  z-index: 4;
+  display: grid; place-items: center;
+  transition: transform .12s var(--ease-out), box-shadow .12s var(--ease-out);
+  touch-action: none;
+}
+.tl-handle::before {
+  content: '';
+  width: 2px; height: 14px;
+  background: rgba(255,255,255,.65);
+  border-radius: 1px;
+  box-shadow: 4px 0 0 rgba(255,255,255,.65), -4px 0 0 rgba(255,255,255,.65);
+}
+.tl-handle:hover, .tl-handle.dragging {
+  transform: scaleY(1.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.40),
+    0 4px 18px rgba(216,35,42,.75);
+}
+.tl-tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(20,8,12,.96);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  color: var(--t1);
+  font-size: 11.5px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  box-shadow: 0 4px 18px rgba(0,0,0,.40);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .15s var(--ease-out);
+  z-index: 6;
+}
+.tl-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%; left: 50%;
+  margin-left: -4px;
+  border: 4px solid transparent;
+  border-top-color: rgba(20,8,12,.96);
+}
+.tl-tooltip.visible { opacity: 1; }
+.tl-tooltip .tt-time { color: #fff; }
+.tl-tooltip .tt-sep { margin: 0 6px; color: var(--t4); }
+.tl-tooltip .tt-occ { color: #fecdd0; }
+.tl-tooltip .tt-occ.warn { color: #fde68a; }
+.tl-tooltip .tt-occ.full { color: #fca5a5; }
+.tl-cursor {
+  position: absolute;
+  top: 0;
+  bottom: 22px;
+  width: 1px;
+  margin-left: -0.5px;
+  background: linear-gradient(180deg, transparent, rgba(255,255,255,.35), transparent);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .12s var(--ease-out);
+  z-index: 3;
+}
+.tl-cursor.visible { opacity: 1; }
+.tl-axis {
+  position: absolute;
+  left: 0; right: 0;
+  bottom: 0;
+  height: 18px;
+  display: flex; justify-content: space-between;
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--t4);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+  pointer-events: none;
+}
+.tl-axis-tick {
+  position: relative;
+  flex: 1;
+  display: flex; align-items: flex-end; justify-content: center;
+  padding-top: 4px;
+}
+.tl-axis-tick::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  width: 1px; height: 4px;
+  background: rgba(255,255,255,.10);
+  margin-left: -0.5px;
+}
+.tl-axis-tick.major::before { height: 6px; background: rgba(255,255,255,.22); }
+.tl-axis-tick.major { color: var(--t3); }
+.tl-axis-tick.edge { color: var(--t2); font-weight: 700; }
+
+.tl-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(216,35,42,.10), rgba(255,255,255,.02));
+  border: 1px solid rgba(216,35,42,.24);
+  font-size: 13px;
+}
+.tl-summary.invalid {
+  background: rgba(248,113,113,.10);
+  border-color: rgba(248,113,113,.30);
+}
+.tl-summary.valid {
+  background: rgba(52,211,153,.08);
+  border-color: rgba(52,211,153,.28);
+}
+.tl-summary-left { display: flex; flex-direction: column; gap: 2px; }
+.tl-summary-time {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+.tl-summary-dur {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t3);
+  letter-spacing: .02em;
+}
+.tl-summary.invalid .tl-summary-dur { color: #fca5a5; }
+.tl-summary.valid .tl-summary-dur { color: #a7f3d0; }
+.tl-summary-right {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--t2);
+  text-align: right;
+  line-height: 1.4;
+}
+.tl-summary-right strong { color: var(--t1); font-variant-numeric: tabular-nums; }
+
+.tl-quick {
+  display: flex; flex-wrap: wrap; gap: 6px;
+  margin-top: 10px;
+}
+.tl-quick-btn {
+  padding: 6px 12px;
+  border-radius: 99px;
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--glass-border);
+  color: var(--t2);
+  font-family: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--t-press) var(--ease-out);
+  font-variant-numeric: tabular-nums;
+}
+.tl-quick-btn:hover {
+  background: rgba(216,35,42,.14);
+  border-color: rgba(216,35,42,.36);
+  color: var(--t1);
+  transform: translateY(-1px);
+}
+.tl-quick-btn.active {
+  background: var(--grad-red);
+  border-color: transparent;
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.20),
+    0 2px 10px rgba(216,35,42,.40);
+}
+
+/* ============ Old occupancy preview (deprecated, kept for backwards-compat) ============ */
+.occupancy-preview {
+  padding: 14px;
+  margin-top: 10px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.24);
+  border: 1px solid var(--glass-border);
+}
+.occ-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--t3);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.occ-label .legend {
+  display: flex; gap: 10px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 10.5px;
+  color: var(--t4);
+}
+.occ-label .legend span {
+  display: inline-flex; align-items: center; gap: 4px;
+}
+.occ-label .legend .dot {
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.occ-grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2px;
+  height: 36px;
+}
+.occ-cell {
+  background: rgba(255,255,255,.04);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+}
+.occ-cell .fill {
+  position: absolute; left: 0; bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #ff4651, #d8232a);
+  border-radius: 3px;
+  transition: height .3s var(--ease-out);
+}
+.occ-cell.selected {
+  outline: 2px solid var(--red3);
+  outline-offset: -1px;
+  background: rgba(216,35,42,.10);
+}
+.occ-times {
+  display: flex; justify-content: space-between;
+  margin-top: 8px;
+  font-size: 10.5px;
+  color: var(--t4);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============ Success Screen ============ */
+.success-icon {
+  width: 68px; height: 68px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  display: grid; place-items: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.30),
+    0 4px 24px rgba(52,211,153,.36);
+}
+.code-box {
+  margin: 20px 0;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(216,35,42,.10);
+  border: 1px dashed var(--glass-border-red);
+  text-align: center;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+.code-box .lbl {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--t3);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.code-box .code {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 34px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: .18em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 18px rgba(216,35,42,.40);
+}
+.code-box .copy-hint {
+  font-size: 11.5px;
+  color: var(--t3);
+  margin-top: 10px;
+}
+
+/* ============ Lock Screen ============ */
+.lock-screen {
+  max-width: 420px;
+  margin: 80px auto;
+  padding: 36px;
+  border-radius: 24px;
+  text-align: center;
+}
+.lock-icon {
+  width: 60px; height: 60px;
+  margin: 0 auto 18px;
+  border-radius: 16px;
+  background: var(--glass-bg-red);
+  border: 1px solid var(--glass-border-red);
+  display: grid; place-items: center;
+  font-size: 26px;
+  box-shadow: 0 4px 18px rgba(216,35,42,.18);
+}
+.lock-screen h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.lock-screen p { color: var(--t3); font-size: 13px; margin-bottom: 24px; }
+.pin-input {
+  width: 100%;
+  padding: 16px;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: .3em;
+  border: 1px solid var(--glass-border);
+  background: rgba(0,0,0,.30);
+  color: var(--t1);
+  border-radius: 14px;
+  transition: all var(--t-press) var(--ease-out);
+}
+.pin-input:focus {
+  outline: none;
+  border-color: var(--red3);
+  box-shadow: 0 0 0 3px rgba(216,35,42,.20);
+}
+.pin-error {
+  color: var(--err);
+  font-size: 12.5px;
+  margin-top: 10px;
+  min-height: 16px;
+}
+
+/* ============ Staff View ============ */
+.bookings-table {
+  border-radius: 18px;
+  overflow: hidden;
+  margin-top: 16px;
+}
+.bookings-head {
+  display: grid;
+  grid-template-columns: 90px 1fr 1.2fr 120px 100px 70px;
+  padding: 12px 16px;
+  background: rgba(0,0,0,.32);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--t3);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  gap: 12px;
+}
+.booking-row {
+  display: grid;
+  grid-template-columns: 90px 1fr 1.2fr 120px 100px 70px;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255,255,255,.05);
+  font-size: 13.5px;
+  gap: 12px;
+  align-items: center;
+  transition: background var(--t-press) var(--ease-out);
+}
+.booking-row:hover { background: rgba(255,255,255,.02); }
+.booking-row .b-time {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--t1);
+}
+.booking-row .b-name { color: var(--t1); font-weight: 500; }
+.booking-row .b-kids { color: var(--t2); font-size: 13px; }
+.booking-row .b-phone {
+  color: var(--t3); font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+}
+.booking-row .b-status {
+  font-size: 11px; font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  text-align: center;
+  background: var(--okL);
+  color: var(--ok);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.b-action {
+  font-size: 11px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid var(--glass-border);
+  color: var(--t2);
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 600;
+  transition: all var(--t-press) var(--ease-out);
+}
+.b-action:hover {
+  background: rgba(248,113,113,.14);
+  border-color: rgba(248,113,113,.40);
+  color: var(--err);
+}
+.staff-day-section { margin-bottom: 28px; }
+.staff-day-title {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 12px;
+  padding: 0 4px;
+}
+.staff-day-title .nm {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--t1);
+}
+.staff-day-title .ct { font-size: 12px; color: var(--t3); }
+
+/* ============ Admin ============ */
+.admin-week-edit {
+  padding: 24px;
+  border-radius: 18px;
+  margin-bottom: 18px;
+}
+.admin-week-edit h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.admin-week-edit .ah-sub {
+  font-size: 12px;
+  color: var(--t3);
+  margin-bottom: 20px;
+}
+.admin-day-row {
+  display: grid;
+  grid-template-columns: 100px 1fr 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+  align-items: end;
+}
+.admin-day-row:first-of-type { border-top: 0; }
+.admin-day-row .dn {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--t1);
+  padding-bottom: 12px;
+}
+.admin-block {
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.22);
+  border: 1px solid var(--glass-border);
+}
+.admin-block-title {
+  font-size: 11px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 10px;
+}
+.admin-block-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 80px;
+  gap: 8px;
+}
+.admin-block-grid label {
+  display: block;
+  font-size: 10px;
+  color: var(--t4);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  margin-bottom: 4px;
+}
+.admin-block-grid input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0,0,0,.28);
+  color: var(--t1);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.admin-block-grid input:focus { outline: none; border-color: var(--red3); }
+.admin-blocks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+@media (max-width: 700px) {
+  .admin-blocks-grid { grid-template-columns: 1fr; }
+}
+
+.admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+.admin-warning {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--warnL);
+  border: 1px solid rgba(251,191,36,.30);
+  color: #fde68a;
+  font-size: 12.5px;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.cancel-detail {
+  margin: 20px 0;
+  padding: 18px;
+  background: rgba(0,0,0,.25);
+  border-radius: 14px;
+  border: 1px solid var(--glass-border);
+  text-align: left;
+}
+
+.cancel-list {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cancel-item {
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  cursor: pointer;
+  transition: all var(--t-press) var(--ease-out);
+  text-align: left;
+}
+.cancel-item:hover {
+  background: rgba(216,35,42,.10);
+  border-color: rgba(216,35,42,.30);
+  transform: translateX(2px);
+}
+.cancel-item-day {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 4px;
+}
+.cancel-item-meta {
+  font-size: 12px;
+  color: var(--t3);
+  font-variant-numeric: tabular-nums;
+}
+.cancel-item-meta strong {
+  color: var(--t2);
+}
+.cancel-detail .dt-row {
+  display: flex; justify-content: space-between;
+  padding: 6px 0;
+  font-size: 13.5px;
+}
+.cancel-detail .dt-row .lb { color: var(--t3); }
+.cancel-detail .dt-row .vl { color: var(--t1); font-weight: 600; }
+
+/* ============ Toast ============ */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  padding: 14px 22px;
+  background: rgba(20,8,12,.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  color: var(--t1);
+  font-size: 13.5px;
+  font-weight: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,.40);
+  z-index: 200;
+  transition: transform .4s var(--ease-drawer);
+  display: flex; align-items: center; gap: 10px;
+  max-width: 90vw;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.ok { border-color: rgba(52,211,153,.30); }
+.toast.err { border-color: rgba(248,113,113,.30); }
+
+/* ============ Demo Banner ============ */
+.demo-banner {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 14px;
+  background: rgba(251,191,36,.14);
+  border: 1px solid rgba(251,191,36,.30);
+  border-radius: 99px;
+  color: #fde68a;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  z-index: 50;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Time-clock pill in week bar */
+.now-pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 10px;
+  border-radius: 99px;
+  background: var(--glass-bg-red);
+  border: 1px solid var(--glass-border-red);
+  font-size: 11px;
+  font-weight: 600;
+  color: #fecdd0;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+.now-pill .pulse {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--red3);
+  box-shadow: 0 0 8px var(--red3);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .4; }
+}
+
+/* ============ Combined Header + Hero ============ */
+.hub {
+  padding: 0;
+  margin-bottom: 26px;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+.hub::after {
+  content: '';
+  position: absolute;
+  top: -50%; right: -10%;
+  width: 55%; height: 200%;
+  background: radial-gradient(ellipse at center, rgba(216,35,42,.22), transparent 65%);
+  pointer-events: none;
+  z-index: 0;
+}
+.hub > * { position: relative; z-index: 1; }
+
+.hub-top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 26px 18px;
+  text-align: center;
+}
+
+.hub-body {
+  padding: 4px 26px 24px;
+  text-align: center;
+}
+.hub-body h1 {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: .02em;
+  margin-bottom: 4px;
+  line-height: 1.4;
+  color: var(--t2);
+}
+.hub-body h1 .accent {
+  background: var(--grad-red-h);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 600;
+}
+.hub-body p {
+  font-size: 12px;
+  color: var(--t3);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+.hub-pills {
+  margin-top: 16px;
+  display: flex; flex-wrap: wrap; gap: 6px;
+  justify-content: center;
+}
+.hub-pills .lg-pill { padding: 5px 12px; font-size: 10.5px; }
+
+/* Status-Line — heute geöffnet/geschlossen */
+.status-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--t2);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 8px var(--ok), 0 0 16px rgba(52,211,153,.4);
+  animation: statusPulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+.status-dot.closed {
+  background: var(--t4);
+  box-shadow: none;
+  animation: none;
+}
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+.status-line .sep {
+  color: var(--t4);
+  margin: 0 4px;
+}
+.status-line strong {
+  color: var(--t1);
+  font-weight: 600;
+}
+
+/* Hub actions */
+.hub-actions {
+  margin-top: 18px;
+  display: flex;
+  justify-content: center;
+}
+
+.today-hours {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  font-size: 12px;
+  color: var(--t2);
+  white-space: nowrap;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.today-hours .th-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.today-hours .th-slot {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-weight: 600;
+  color: var(--t1);
+  font-variant-numeric: tabular-nums;
+}
+.today-hours .th-slot.closed {
+  color: var(--t4);
+  font-weight: 500;
+  text-decoration: line-through;
+}
+.today-hours .th-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ok);
+  box-shadow: 0 0 6px var(--ok);
+}
+.today-hours .th-dot.closed {
+  background: var(--t4);
+  box-shadow: none;
+}
+
+/* ============ Mini-Heatmap in Slot Cards ============ */
+.slot-heatmap {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2px;
+  height: 18px;
+  margin-top: 10px;
+}
+.heat-cell {
+  background: rgba(255,255,255,.05);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  transition: background var(--t-tip) var(--ease-out);
+}
+.heat-cell .hfill {
+  position: absolute; left: 0; bottom: 0;
+  width: 100%;
+  background: linear-gradient(180deg, #ff4651, #d8232a);
+  border-radius: 2px;
+}
+.heat-cell.empty .hfill { display: none; }
+.heat-labels {
+  display: flex; justify-content: space-between;
+  font-size: 9.5px;
+  color: var(--t4);
+  margin-top: 4px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: .02em;
+}
+
+/* ============ Multi-step Booking Modal ============ */
+.step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 18px 0 22px;
+}
+.step-dot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.step-dot .sd-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  display: grid; place-items: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--t3);
+  transition: all var(--t-pop) var(--ease-out);
+}
+.step-dot .sd-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--t3);
+  transition: color var(--t-pop) var(--ease-out);
+}
+.step-dot.active .sd-num {
+  background: var(--grad-red);
+  border-color: transparent;
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.25),
+    0 4px 14px rgba(216,35,42,.4);
+}
+.step-dot.active .sd-label { color: var(--t1); }
+.step-dot.done .sd-num {
+  background: rgba(216,35,42,.18);
+  border-color: rgba(216,35,42,.40);
+  color: var(--red3);
+}
+.step-line {
+  width: 36px; height: 1px;
+  background: rgba(255,255,255,.10);
+  margin-bottom: 14px;
+}
+
+.book-step {
+  animation: stepIn .25s var(--ease-out);
+}
+
+.step-nav {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+.step-nav .btn { flex: 1; }
+
+/* Confirmation summary (step 3) */
+.confirm-summary {
+  padding: 18px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(216,35,42,.10), rgba(255,255,255,.03));
+  border: 1px solid rgba(216,35,42,.22);
+  margin-bottom: 18px;
+}
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255,255,255,.06);
+  font-size: 13px;
+}
+.confirm-row:first-child { border-top: 0; padding-top: 0; }
+.confirm-row .cr-lb {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--t3);
+}
+.confirm-row .cr-vl {
+  color: var(--t1);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.confirm-row.highlight .cr-vl {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 15px;
+}
+
+/* Demand-pills slimmer in modal */
+.demand-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 99px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  line-height: 1.3;
+}
+.demand-pill.popular {
+  background: rgba(251,191,36,.12);
+  border: 1px solid rgba(251,191,36,.30);
+  color: #fde68a;
+}
+.demand-pill.last {
+  background: rgba(239,68,68,.14);
+  border: 1px solid rgba(239,68,68,.36);
+  color: #fca5a5;
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 0 rgba(239,68,68,0); }
+  50% { box-shadow: 0 0 14px rgba(239,68,68,.35); }
+}
+
+/* Slot row gets a "right column" wrapper for stacking cap-bar + demand-pill */
+.slot-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+/* ============ iCal Button ============ */
+.success-hint {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  margin: 20px 0;
+  border-radius: 12px;
+  background: rgba(216,35,42,.06);
+  border: 1px solid rgba(216,35,42,.20);
+  font-size: 13px;
+  color: var(--t2);
+  text-align: left;
+  line-height: 1.45;
+}
+.success-hint .sh-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.success-hint strong {
+  color: var(--t1);
+  font-weight: 700;
+}
+
+.success-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+.success-actions .btn { flex: 1; }
+.btn-ical {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--t1);
+}
+.btn-ical:hover {
+  background: var(--glass-bg-strong);
+  border-color: rgba(216,35,42,.30);
+}
+.btn-ical svg { flex-shrink: 0; }
+
+/* ============ Race-Condition Sold-Out Modal ============ */
+.soldout-icon {
+  width: 64px; height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  display: grid; place-items: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.30),
+    0 4px 22px rgba(245,158,11,.34);
+}
+
+/* ============ Child name row — first + last name ============ */
+.child-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 40px;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.child-row input {
+  padding: 12px 14px;
+  border: 1px solid var(--glass-border);
+  background: rgba(0,0,0,.30);
+  color: var(--t1);
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 14px;
+  width: 100%;
+  transition: all var(--t-press) var(--ease-out);
+}
+.child-row input:focus {
+  outline: none;
+  border-color: var(--red3);
+  background: rgba(0,0,0,.40);
+  box-shadow: 0 0 0 3px rgba(216,35,42,.18);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 700px) {
+  .shell { padding: 16px 14px 60px; }
+  header.app-head { flex-direction: column; gap: 12px; padding: 14px; }
+  .hub-top { padding: 18px 16px 16px; gap: 12px; }
+  .hub-body { padding: 18px 16px 20px; }
+  .head-cta { width: 100%; }
+  .head-cancel-btn { width: 100%; }
+  .hero { padding: 26px 22px; }
+  .hero h1 { font-size: 26px; }
+  .days-grid { grid-template-columns: 1fr; }
+  .bookings-head { display: none; }
+  .booking-row {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+    gap: 6px 12px;
+  }
+  .booking-row .b-time { grid-column: 1; grid-row: 1; }
+  .booking-row .b-status { grid-column: 2; grid-row: 1; justify-self: end; }
+  .booking-row .b-name { grid-column: 1 / -1; grid-row: 2; }
+  .booking-row .b-kids { grid-column: 1 / -1; grid-row: 3; font-size: 12px; }
+  .booking-row .b-phone { grid-column: 1; grid-row: 4; }
+  .b-action { grid-column: 2; grid-row: 4; justify-self: end; }
+  .admin-day-row { grid-template-columns: 1fr; }
+  .admin-day-row .dn { padding-bottom: 0; }
+  .admin-block-grid { grid-template-columns: 1fr 1fr 70px; }
+  .field-row { grid-template-columns: 1fr; }
+  .demo-banner { font-size: 10px; padding: 4px 10px; }
+  .today-hours {
+    width: 100%;
+    margin: 0;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 11.5px;
+  }
+  .child-row { grid-template-columns: 1fr 1fr 36px; gap: 6px; }
+  .child-row input { padding: 10px 12px; font-size: 13px; }
+  .success-actions { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- ANIMATED MESH BACKGROUND — fixed, full page (AeroTAX-Style, rot) -->
+<div id="mesh-bg" style="position:fixed;inset:0;z-index:-1;overflow:hidden;background:#0a0407;">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-orb orb4"></div>
+  <div class="hero-orb orb5"></div>
+  <div class="hero-orb orb6"></div>
+  <div class="hero-orb orb7"></div>
+  <div class="hero-orb orb8"></div>
+  <div class="hero-orb orb9"></div>
+</div>
+
+<div class="demo-banner" style="display:none;">DEMO — Daten leben nur im Browser</div>
+
+<div class="shell">
+
+<!-- ============ Combined Header + Hero Hub ============ -->
+<header class="hub lg-surface lg-sheen">
+  <div class="hub-top">
+    <div class="brand" onclick="goHome()">
+      <div class="brand-logo">
+        <span class="el-wordmark">ELE<span class="peak">M</span>ENTS</span><span class="junior">Junior</span>
+      </div>
+      <div class="brand-sub">
+        <div class="sb1">Kinderbetreuung · Henninger Turm</div>
+      </div>
+    </div>
+    <div class="status-line" id="status-line">
+      <span class="status-dot" id="status-dot"></span>
+      <span id="status-text">—</span>
+    </div>
+  </div>
+  <div class="hub-body">
+    <h1>Reserviere euren Platz — <span class="accent">unkompliziert online</span></h1>
+    <p>Reservierung ab 06:00 Uhr am Vortag · max. 2 Stunden pro Betreuung</p>
+    <div class="hub-actions">
+      <button class="head-cancel-btn" onclick="openCancelDialog()">Reservierung absagen</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ VIEW: PARENTS ============ -->
+<section class="view active" id="view-parents">
+
+  <div class="day-tabs lg-surface" id="day-tabs"></div>
+  <div id="day-detail"></div>
+
+</section>
+
+<!-- ============ VIEW: STAFF ============ -->
+<section class="view" id="view-staff">
+  <div class="lock-screen lg-surface" id="staff-lock">
+    <div class="lock-icon">🔒</div>
+    <h2>Mitarbeiter-Ansicht</h2>
+    <p>Bitte gib den Mitarbeiter-PIN ein, um die Buchungsliste mit Namen einzusehen.</p>
+    <input type="password" class="pin-input" id="staff-pin" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+    <div class="pin-error" id="staff-pin-err"></div>
+    <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;">
+      <button class="btn btn-ghost btn-sm" onclick="goHome()">Zurück</button>
+      <button class="btn btn-primary" onclick="unlockStaff()">Anmelden</button>
+    </div>
+    <div style="margin-top:18px; font-size:11px; color:var(--t4);">Demo-PIN: <strong style="color:var(--t2)">1234</strong></div>
+  </div>
+
+  <div id="staff-content" style="display:none;">
+    <div class="hero lg-surface">
+      <h1>Buchungsübersicht <span class="accent">· Mitarbeiter</span></h1>
+      <p>Vollständige Liste aller Reservierungen mit Namen, Telefonnummer und Uhrzeiten für den Check-in.</p>
+    </div>
+    <div class="week-bar lg-surface">
+      <div class="week-title">Woche <strong id="staff-week-label">25.05. – 31.05.2026</strong></div>
+      <div class="week-nav">
+        <button class="wk-btn" id="staff-wk-prev">‹</button>
+        <button class="wk-btn" id="staff-wk-today">●</button>
+        <button class="wk-btn" id="staff-wk-next">›</button>
+      </div>
+    </div>
+    <div id="staff-list"></div>
+  </div>
+</section>
+
+<!-- ============ VIEW: ADMIN ============ -->
+<section class="view" id="view-admin">
+  <div class="lock-screen lg-surface" id="admin-lock">
+    <div class="lock-icon">🔑</div>
+    <h2>Admin-Ansicht</h2>
+    <p>Bitte gib den Admin-PIN ein, um Kapazitäten und Betreuungszeiten zu bearbeiten.</p>
+    <input type="password" class="pin-input" id="admin-pin" inputmode="numeric" maxlength="4" placeholder="••••" autocomplete="off">
+    <div class="pin-error" id="admin-pin-err"></div>
+    <div style="margin-top:18px; display:flex; gap:10px; justify-content:center;">
+      <button class="btn btn-ghost btn-sm" onclick="goHome()">Zurück</button>
+      <button class="btn btn-primary" onclick="unlockAdmin()">Anmelden</button>
+    </div>
+    <div style="margin-top:18px; font-size:11px; color:var(--t4);">Demo-PIN: <strong style="color:var(--t2)">9999</strong></div>
+  </div>
+
+  <div id="admin-content" style="display:none;">
+    <div class="hero lg-surface">
+      <h1>Wochen-Verwaltung <span class="accent">· Admin</span></h1>
+      <p>Wähle einen Tag und bearbeite Vormittag/Nachmittag. Änderungen wirken sich sofort auf die Verfügbarkeit aus.</p>
+    </div>
+    <div class="week-bar lg-surface">
+      <div class="week-title">Woche <strong id="admin-week-label">25.05. – 31.05.2026</strong></div>
+      <div class="week-nav">
+        <button class="wk-btn" id="admin-wk-prev">‹</button>
+        <button class="wk-btn" id="admin-wk-today">●</button>
+        <button class="wk-btn" id="admin-wk-next">›</button>
+      </div>
+    </div>
+    <div class="day-tabs lg-surface" id="admin-day-tabs"></div>
+    <div id="admin-day-detail"></div>
+  </div>
+</section>
+
+<!-- Hidden access hint at the very bottom — only on Eltern view -->
+<div class="access-hint" id="access-hint">
+  <span style="opacity:.6;">Personal-Zugang: </span>
+  <a href="#staff">Mitarbeiter</a>
+  <span style="margin:0 6px; opacity:.4;">·</span>
+  <a href="#admin">Admin</a>
+</div>
+
+</div><!-- /shell -->
+
+<!-- ============ Booking Modal ============ -->
+<div class="modal-backdrop" id="book-modal">
+  <div class="modal lg-surface" id="book-modal-inner">
+    <button class="modal-close" onclick="closeBookModal()">×</button>
+    <div id="book-step-form">
+      <h2>Reservierung</h2>
+      <div class="sub" id="book-slot-title">—</div>
+
+      <div class="step-indicator">
+        <div class="step-dot active" data-step="1">
+          <span class="sd-num">1</span>
+          <span class="sd-label">Zeit</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="2">
+          <span class="sd-num">2</span>
+          <span class="sd-label">Daten</span>
+        </div>
+        <div class="step-line"></div>
+        <div class="step-dot" data-step="3">
+          <span class="sd-num">3</span>
+          <span class="sd-label">Bestätigen</span>
+        </div>
+      </div>
+
+      <!-- STEP 1 — Zeit wählen -->
+      <div class="book-step" id="bstep-1">
+        <div id="modal-demand-pills" style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:14px;"></div>
+
+        <div class="time-grid-wrap">
+          <div class="tg-step">
+            <div class="tg-step-label">Startzeit</div>
+            <div class="time-grid" id="tg-start"></div>
+          </div>
+          <div class="tg-step" id="tg-step-end" style="display:none;">
+            <div class="tg-step-label">Endzeit · max. 2 Stunden später</div>
+            <div class="time-grid" id="tg-end"></div>
+          </div>
+        </div>
+
+        <div class="tl-summary" id="tl-summary">
+          <div class="tl-summary-left">
+            <div class="tl-summary-time" id="tl-summary-time">Bitte Startzeit wählen</div>
+            <div class="tl-summary-dur" id="tl-summary-dur">—</div>
+          </div>
+          <div class="tl-summary-right" id="tl-summary-right"></div>
+        </div>
+
+        <input type="hidden" id="b-start">
+        <input type="hidden" id="b-end">
+
+        <div class="step-nav">
+          <button class="btn btn-ghost" onclick="closeBookModal()">Abbrechen</button>
+          <button class="btn btn-primary" id="step1-next" onclick="goToStep(2)">Weiter</button>
+        </div>
+      </div>
+
+      <!-- STEP 2 — Eure Daten -->
+      <div class="book-step" id="bstep-2" style="display:none;">
+        <div class="field">
+          <label>Dein Name (Mitglied)</label>
+          <input type="text" id="b-parent" placeholder="Vor- und Nachname" autocomplete="name">
+        </div>
+
+        <div class="field">
+          <label>Telefonnummer für Notfälle</label>
+          <input type="tel" id="b-phone" placeholder="z.B. 0151 23456789" autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label>Kinder · Vor- und Nachname</label>
+          <div id="b-children">
+            <div class="child-row">
+              <input type="text" placeholder="Vorname" class="b-kid-first">
+              <input type="text" placeholder="Nachname" class="b-kid-last">
+              <button class="rm" onclick="removeChild(this)" title="Entfernen">×</button>
+            </div>
+          </div>
+          <button class="add-child" onclick="addChild()">+ Weiteres Kind</button>
+        </div>
+
+        <div class="step-nav">
+          <button class="btn btn-ghost" onclick="goToStep(1)">Zurück</button>
+          <button class="btn btn-primary" onclick="goToStep(3)">Weiter</button>
+        </div>
+      </div>
+
+      <!-- STEP 3 — Bestätigen -->
+      <div class="book-step" id="bstep-3" style="display:none;">
+        <div class="confirm-summary" id="confirm-summary"></div>
+
+        <label class="cb-field">
+          <input type="checkbox" id="b-membership">
+          <span class="cb-text">Ich bestätige, dass ich <strong>Elements-Mitglied</strong> bin. Wellpass und andere externe Tarife sind für die Kinderbetreuung ausgeschlossen.</span>
+        </label>
+
+        <div class="step-nav">
+          <button class="btn btn-ghost" onclick="goToStep(2)">Zurück</button>
+          <button class="btn btn-primary" onclick="submitBooking()">Verbindlich reservieren</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="book-step-success" style="display:none; text-align:center;">
+      <div class="success-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12l5 5 9-11" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h2>Reservierung bestätigt</h2>
+      <div class="sub" id="success-summary">—</div>
+
+      <div class="success-hint">
+        <span class="sh-icon">💡</span>
+        <span>Zum Absagen einfach den <strong>Nachnamen</strong> eingeben, mit dem du reserviert hast.</span>
+      </div>
+
+      <div class="success-actions">
+        <button class="btn btn-ical" onclick="downloadICal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
+          Zum Kalender
+        </button>
+        <button class="btn btn-ghost" onclick="closeBookModal()">Schließen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Cancel Modal ============ -->
+<div class="modal-backdrop" id="cancel-modal">
+  <div class="modal lg-surface">
+    <button class="modal-close" onclick="closeCancelModal()">×</button>
+    <div id="cancel-step-input">
+      <h2>Reservierung absagen</h2>
+      <div class="sub">Gib deinen Nachnamen ein, mit dem du reserviert hast.</div>
+      <div class="field" style="margin-top: 14px;">
+        <input type="text" id="cancel-name-input" placeholder="Nachname" autocomplete="family-name" style="padding: 14px; font-size: 16px;">
+      </div>
+      <div class="pin-error" id="cancel-err"></div>
+      <div style="margin-top:6px;">
+        <button class="btn btn-primary" style="width:100%;" onclick="lookupCancel()">Reservierung suchen</button>
+      </div>
+    </div>
+
+    <div id="cancel-step-pick" style="display:none;">
+      <h2>Welche Reservierung?</h2>
+      <div class="sub">Wir haben mehrere Reservierungen unter diesem Namen gefunden.</div>
+      <div class="cancel-list" id="cancel-list"></div>
+      <div style="margin-top: 16px;">
+        <button class="btn btn-ghost" style="width:100%;" onclick="cancelBackToInput()">Anderen Namen eingeben</button>
+      </div>
+    </div>
+
+    <div id="cancel-step-confirm" style="display:none;">
+      <h2>Reservierung absagen?</h2>
+      <div class="sub">Diese Buchung wird storniert und kann nicht wiederhergestellt werden.</div>
+      <div class="cancel-detail" id="cancel-details"></div>
+      <div style="display:flex; gap:10px;">
+        <button class="btn btn-ghost" style="flex:1;" onclick="cancelBackToInput()">Zurück</button>
+        <button class="btn btn-danger" style="flex:1;" onclick="confirmCancel()">Absagen</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Sold-Out Race-Condition Modal ============ -->
+<div class="modal-backdrop" id="soldout-modal">
+  <div class="modal lg-surface" style="text-align:center;">
+    <button class="modal-close" onclick="closeSoldOut()">×</button>
+    <div class="soldout-icon">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">
+        <path d="M12 9v4M12 17h.01"/>
+        <circle cx="12" cy="12" r="10"/>
+      </svg>
+    </div>
+    <h2>Soeben ausgebucht</h2>
+    <div class="sub" id="soldout-reason" style="margin-bottom: 8px;">Während du das Formular ausgefüllt hast, wurde der letzte freie Platz von jemand anderem reserviert.</div>
+    <div class="sub" style="margin-top: 0; margin-bottom: 22px; color:var(--t2);">Bitte versuche es später erneut — oft werden Plätze durch Absagen wieder frei.</div>
+    <button class="btn btn-primary" style="width:100%;" onclick="closeSoldOut()">Verstanden</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===================================================================
+   ELEMENTSJunior — Demo Prototyp v5
+   Daten leben nur im Browser. Bei Reload zurück auf Seed.
+   =================================================================== */
+
+const STAFF_PIN = '1234';
+const ADMIN_PIN = '9999';
+const BOOKING_OPEN_HOUR = 6; // Reservierungen für morgen ab 6:00 freigeschaltet
+
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const pad = n => String(n).padStart(2, '0');
+const fmtDate = d => `${pad(d.getDate())}.${pad(d.getMonth()+1)}.${d.getFullYear()}`;
+const fmtDateShort = d => `${pad(d.getDate())}.${pad(d.getMonth()+1)}.`;
+const dayNames = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+
+function startOfWeek(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0,0,0,0);
+  return d;
+}
+function addDays(date, n) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+function dateKey(d) {
+  return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+}
+function parseTime(t) {
+  const [h,m] = t.split(':').map(Number);
+  return h*60 + m;
+}
+function fmtTime(m) {
+  return `${pad(Math.floor(m/60))}:${pad(m%60)}`;
+}
+function gen6() {
+  return String(Math.floor(100000 + Math.random()*900000));
+}
+
+/* ============ STATE ============ */
+const today = new Date();
+today.setHours(0,0,0,0);
+const thisMonday = startOfWeek(today);
+
+function defaultDayCapacity() {
+  return {
+    morning:   { from: '09:00', to: '12:00', cap: 6 },
+    afternoon: { from: '15:00', to: '19:00', cap: 8 }
+  };
+}
+const _state = {
+  capacities: {},
+  bookings: []
+};
+
+for (let w=0; w<2; w++) {
+  for (let i=0; i<7; i++) {
+    const d = addDays(thisMonday, w*7 + i);
+    const k = dateKey(d);
+    if (i === 5) _state.capacities[k] = { morning: {from:'10:00', to:'13:00', cap:6}, afternoon: null };
+    else if (i === 6) _state.capacities[k] = { morning: null, afternoon: null };
+    else _state.capacities[k] = defaultDayCapacity();
+  }
+}
+
+function seedBooking(dayOffset, slot, start, end, parent, phone, kids) {
+  const d = addDays(thisMonday, dayOffset);
+  // kids: array of [first, last] tuples
+  const kidObjs = kids.map(([first, last]) => ({
+    first, last, full: [first, last].filter(Boolean).join(' ')
+  }));
+  _state.bookings.push({
+    id: 'b_' + Math.random().toString(36).slice(2,9),
+    code: gen6(),
+    dateKey: dateKey(d),
+    slot, start, end,
+    parent, phone, kids: kidObjs,
+    createdAt: Date.now()
+  });
+}
+const todayOffset = Math.floor((today - thisMonday) / 86400000);
+seedBooking(todayOffset, 'morning', '09:00', '11:00', 'Anna Schmidt', '0151 23456789', [['Lina','Schmidt'],['Tom','Schmidt']]);
+seedBooking(todayOffset, 'morning', '10:00', '12:00', 'Markus Weber', '0176 11223344', [['Emil','Weber']]);
+seedBooking(todayOffset, 'afternoon', '15:00', '17:00', 'Julia Becker', '0157 99887766', [['Mia','Becker']]);
+if (todayOffset+1 < 7) seedBooking(todayOffset+1, 'morning', '09:30', '11:30', 'Patrick Klein', '0151 55443322', [['Leon','Klein']]);
+if (todayOffset+2 < 7) seedBooking(todayOffset+2, 'afternoon', '16:00', '18:00', 'Sarah Hoffmann', '0173 11778899', [['Hannah','Hoffmann'],['Noah','Hoffmann']]);
+
+/* ============ Booking-Open Logic ============ */
+// Returns: { open: boolean, reason: string }
+// Rule: today is always open. Future days are open from 6:00 AM the day before.
+function isDayBookable(d) {
+  const now = new Date();
+  const dayStart = new Date(d); dayStart.setHours(0,0,0,0);
+  const todayStart = new Date(); todayStart.setHours(0,0,0,0);
+
+  if (dayStart < todayStart) return { open:false, reason:'past' };
+  if (dayStart.getTime() === todayStart.getTime()) return { open:true };
+
+  // future day — booking opens at 6:00 on (dayStart - 1)
+  const openAt = new Date(dayStart);
+  openAt.setDate(openAt.getDate() - 1);
+  openAt.setHours(BOOKING_OPEN_HOUR, 0, 0, 0);
+
+  if (now >= openAt) return { open:true };
+  return { open:false, reason:'too-early', openAt };
+}
+
+function fmtOpenAt(d) {
+  return `${dayNames[d.getDay()].slice(0,2)}. ${pad(d.getDate())}.${pad(d.getMonth()+1)}. um ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+/* ============ Capacity Math ============ */
+function getOccupancy(dateK, slotName) {
+  const cap = _state.capacities[dateK];
+  if (!cap || !cap[slotName]) return null;
+  const window = cap[slotName];
+  const startMin = parseTime(window.from);
+  const endMin = parseTime(window.to);
+  const STEP = 15;
+  const cells = [];
+  for (let m = startMin; m < endMin; m += STEP) cells.push({ time: m, count: 0 });
+  const dayBookings = _state.bookings.filter(b => b.dateKey === dateK && b.slot === slotName);
+  for (const b of dayBookings) {
+    const bs = parseTime(b.start);
+    const be = parseTime(b.end);
+    const kidCount = b.kids.length;
+    for (const c of cells) {
+      if (c.time >= bs && c.time < be) c.count += kidCount;
+    }
+  }
+  return { cells, cap: window.cap, window };
+}
+
+function slotFreeSummary(dateK, slotName) {
+  const occ = getOccupancy(dateK, slotName);
+  if (!occ) return null;
+  const maxUsed = Math.max(0, ...occ.cells.map(c => c.count));
+  return { cap: occ.cap, used: maxUsed, free: Math.max(0, occ.cap - maxUsed), window: occ.window };
+}
+
+function canBookRange(dateK, slotName, startStr, endStr, kidCount) {
+  const occ = getOccupancy(dateK, slotName);
+  if (!occ) return { ok:false, reason:'Kein Slot verfügbar' };
+  const bs = parseTime(startStr);
+  const be = parseTime(endStr);
+  if (be - bs <= 0) return { ok:false, reason:'Endzeit muss nach Startzeit liegen' };
+  if (be - bs > 120) return { ok:false, reason:'Maximal 2 Stunden pro Betreuung' };
+  if (bs < parseTime(occ.window.from) || be > parseTime(occ.window.to)) {
+    return { ok:false, reason:`Zeit muss zwischen ${occ.window.from} und ${occ.window.to} liegen` };
+  }
+  for (const c of occ.cells) {
+    if (c.time >= bs && c.time < be) {
+      if (c.count + kidCount > occ.cap) {
+        return { ok:false, reason:`Um ${fmtTime(c.time)} kein Platz für ${kidCount} Kind${kidCount>1?'er':''}` };
+      }
+    }
+  }
+  return { ok:true };
+}
+
+/* ============ Parents View ============ */
+// Eltern-Ansicht: Rolling 7 Days ab heute, keine Vergangenheit.
+// "parentsStart" wird täglich neu berechnet — keine Wochen-Navigation für Eltern.
+let parentsStart = new Date(today);
+let staffWeekStart = new Date(thisMonday);
+let adminWeekStart = new Date(thisMonday);
+
+function renderWeekLabel(start, target) {
+  const end = addDays(start, 6);
+  $(target).textContent = `${fmtDateShort(start)} – ${fmtDate(end)}`;
+}
+
+// Eltern-Ansicht: Range-Label „Heute – Datum+6"
+function renderParentsRangeLabel() {
+  const end = addDays(parentsStart, 6);
+  const el = $('#week-label');
+  if (el) el.textContent = `${fmtDateShort(parentsStart)} – ${fmtDate(end)}`;
+}
+
+function updateNowPill() {
+  const el = $('#now-time');
+  if (!el) return;
+  const n = new Date();
+  el.textContent = `Jetzt ${pad(n.getHours())}:${pad(n.getMinutes())}`;
+}
+
+function renderTodayHours() {
+  const k = dateKey(today);
+  const cap = _state.capacities[k];
+  const dot = $('#status-dot');
+  const text = $('#status-text');
+  if (!dot || !text) return;
+
+  if (!cap) {
+    dot.classList.add('closed');
+    text.innerHTML = 'Heute geschlossen';
+    return;
+  }
+  const parts = [];
+  if (cap.morning) parts.push(`<strong>${cap.morning.from}–${cap.morning.to}</strong>`);
+  if (cap.afternoon) parts.push(`<strong>${cap.afternoon.from}–${cap.afternoon.to}</strong>`);
+
+  if (parts.length === 0) {
+    dot.classList.add('closed');
+    text.innerHTML = 'Heute geschlossen';
+  } else {
+    dot.classList.remove('closed');
+    text.innerHTML = `Heute geöffnet <span class="sep">·</span> ${parts.join('<span class="sep">·</span>')}`;
+  }
+}
+
+// Eltern-Ansicht: ein Tag selected zur Zeit
+let selectedParentDay = 0;  // index 0..6 within rolling 7-day window
+
+function renderParentsView() {
+  updateNowPill();
+  renderTodayHours();
+  parentsStart = new Date(today);
+  renderDayTabs();
+  renderDayDetail();
+  if (typeof tickCountdowns === 'function') tickCountdowns();
+}
+
+function renderDayTabs() {
+  const tabs = $('#day-tabs');
+  if (!tabs) return;
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = addDays(parentsStart, i);
+    const k = dateKey(d);
+    const isToday = (k === dateKey(today));
+    const bookable = isDayBookable(d);
+    const cap = _state.capacities[k];
+
+    // Determine status dot
+    let dotCls = 'locked';
+    let statusLabel = '';
+    if (cap && (cap.morning || cap.afternoon)) {
+      // Compute overall fullness across both slots
+      let totalCap = 0, totalUsed = 0;
+      for (const s of ['morning','afternoon']) {
+        if (cap[s]) {
+          const sum = slotFreeSummary(k, s);
+          if (sum) { totalCap += sum.cap; totalUsed += sum.used; }
+        }
+      }
+      if (totalCap > 0) {
+        const pct = (totalUsed / totalCap) * 100;
+        if (totalUsed >= totalCap) { dotCls = 'full'; statusLabel = 'voll'; }
+        else if (pct >= 70) { dotCls = 'warn'; statusLabel = 'knapp'; }
+        else { dotCls = ''; statusLabel = 'frei'; }
+      } else {
+        statusLabel = '—';
+      }
+    } else {
+      statusLabel = 'zu';
+    }
+
+    if (!bookable.open && bookable.reason === 'too-early') {
+      // not yet bookable
+      statusLabel = 'bald';
+    }
+
+    const cls = 'day-tab'
+      + (i === selectedParentDay ? ' active' : '')
+      + (!bookable.open ? ' locked' : '');
+
+    html += `
+      <button class="${cls}" data-i="${i}">
+        <span class="dt-name">${isToday ? 'Heute' : dayNames[d.getDay()].slice(0,2)}</span>
+        <span class="dt-day">${pad(d.getDate())}</span>
+        <span class="dt-dot ${dotCls}"></span>
+        <span class="dt-status">${statusLabel}</span>
+      </button>`;
+  }
+  tabs.innerHTML = html;
+  tabs.querySelectorAll('.day-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      selectedParentDay = parseInt(t.dataset.i);
+      renderDayTabs();
+      renderDayDetail();
+    });
+  });
+}
+
+function renderDayDetail() {
+  const detail = $('#day-detail');
+  if (!detail) return;
+  const d = addDays(parentsStart, selectedParentDay);
+  const k = dateKey(d);
+  const isToday = (k === dateKey(today));
+  const bookable = isDayBookable(d);
+  const cap = _state.capacities[k];
+
+  // Header summary: total free
+  let totalCap = 0, totalUsed = 0, totalSlots = 0;
+  if (cap) {
+    for (const s of ['morning','afternoon']) {
+      if (cap[s]) {
+        const sum = slotFreeSummary(k, s);
+        if (sum) { totalCap += sum.cap; totalUsed += sum.used; totalSlots++; }
+      }
+    }
+  }
+  const totalFree = totalCap - totalUsed;
+
+  const headerRight = (totalSlots > 0 && bookable.open)
+    ? `<strong>${totalFree}</strong> von ${totalCap} Plätzen frei`
+    : (bookable.reason === 'too-early' ? '' : '');
+
+  let bodyHtml = '';
+
+  if (!cap || (!cap.morning && !cap.afternoon)) {
+    bodyHtml = `<div class="dd-empty">An diesem Tag bietet ELEMENTSJunior keine Betreuung an</div>`;
+  } else if (!bookable.open && bookable.reason === 'too-early') {
+    // Show lock-teaser with countdown
+    const slotPreview = [];
+    if (cap.morning) slotPreview.push(`<span class="teaser-slot"><span class="ts-label">Vor</span> ${cap.morning.from}–${cap.morning.to} <span class="ts-cap">${cap.morning.cap} Plätze</span></span>`);
+    if (cap.afternoon) slotPreview.push(`<span class="teaser-slot"><span class="ts-label">Nach</span> ${cap.afternoon.from}–${cap.afternoon.to} <span class="ts-cap">${cap.afternoon.cap} Plätze</span></span>`);
+    bodyHtml = `
+      <div class="lock-teaser" data-open-at="${bookable.openAt.toISOString()}">
+        <div class="teaser-row">
+          <span class="pulse-dot"></span>
+          <span>Bald buchbar</span>
+        </div>
+        <div class="teaser-preview">${slotPreview.join('')}</div>
+        <div class="countdown">
+          <span class="countdown-label">Öffnet in</span>
+          <span class="countdown-time" data-cd></span>
+        </div>
+      </div>`;
+  } else {
+    // Slots
+    const slotEls = [];
+    for (const s of [{key:'morning', label:'Vormittag'}, {key:'afternoon', label:'Nachmittag'}]) {
+      if (!cap[s.key]) continue;
+      const summary = slotFreeSummary(k, s.key);
+      const pct = summary ? Math.round((summary.used / summary.cap) * 100) : 0;
+      const barCls = pct >= 100 ? 'full' : (pct >= 75 ? 'warn' : '');
+      const isFull = summary && summary.free === 0;
+      const clickable = bookable.open && !isFull;
+
+      let statusCls = 'free', statusText = `${summary.free} frei`;
+      if (isFull) { statusCls = 'full'; statusText = 'ausgebucht'; }
+      else if (pct >= 75) { statusCls = 'tight'; statusText = `nur noch ${summary.free}`; }
+
+      const cls = 'dd-slot' + (isFull ? ' full' : (clickable ? '' : ' disabled'));
+      slotEls.push(`
+        <div class="${cls}" ${clickable ? `onclick="openBookModal('${k}','${s.key}')"` : ''}>
+          <div class="dd-slot-head">
+            <span class="dd-slot-label">${s.label}</span>
+            <span class="dd-slot-status ${statusCls}">${statusText}</span>
+          </div>
+          <div class="dd-slot-time">${cap[s.key].from} – ${cap[s.key].to}</div>
+          <div class="dd-slot-meta">
+            <div class="cap-bar"><div class="cap-bar-fill ${barCls}" style="width:${pct}%"></div></div>
+            <span class="cap-num">${summary.cap - summary.used}/${summary.cap}</span>
+          </div>
+        </div>`);
+    }
+    bodyHtml = `<div class="dd-slots">${slotEls.join('')}</div>`;
+  }
+
+  detail.innerHTML = `
+    <div class="day-detail lg-surface">
+      <div class="dd-header">
+        <div class="dd-header-left">
+          <h2>${isToday ? 'Heute' : dayNames[d.getDay()]}${isToday ? '' : ` · ${dayNames[d.getDay()].length > 0 ? '' : ''}`}</h2>
+          <div class="dd-date">${fmtDate(d)}</div>
+        </div>
+        <div class="dd-header-right">${headerRight}</div>
+      </div>
+      ${bodyHtml}
+    </div>`;
+}
+
+/* ============ Booking Modal ============ */
+let bookCtx = null;
+
+function openBookModal(dateK, slotName) {
+  const d = new Date(dateK + 'T00:00');
+  const bookable = isDayBookable(d);
+  if (!bookable.open) {
+    if (bookable.reason === 'too-early')
+      toast(`Reservierungen für diesen Tag öffnen erst ${fmtOpenAt(bookable.openAt)}`, 'err');
+    else toast('Dieser Tag liegt in der Vergangenheit', 'err');
+    return;
+  }
+  const cap = _state.capacities[dateK][slotName];
+  bookCtx = { dateK, slotName, cap };
+
+  $('#book-slot-title').textContent =
+    `${dayNames[d.getDay()]}, ${fmtDate(d)} · ${slotName==='morning'?'Vormittag':'Nachmittag'} (${cap.from}–${cap.to})`;
+
+  TL.windowFrom = parseTime(cap.from);
+  TL.windowTo = parseTime(cap.to);
+  TL.startMin = null;
+  TL.endMin = null;
+  $('#b-start').value = '';
+  $('#b-end').value = '';
+
+  $('#b-parent').value = '';
+  $('#b-phone').value = '';
+  $('#b-membership').checked = false;
+  $('#b-children').innerHTML = `
+    <div class="child-row">
+      <input type="text" placeholder="Vorname" class="b-kid-first">
+      <input type="text" placeholder="Nachname" class="b-kid-last">
+      <button class="rm" onclick="removeChild(this)" title="Entfernen">×</button>
+    </div>`;
+
+  $('#book-step-form').style.display = '';
+  $('#book-step-success').style.display = 'none';
+  $('#book-modal').classList.add('open');
+
+  // Start at step 1
+  goToStep(1);
+
+  requestAnimationFrame(() => {
+    attachTimelineEvents();
+    renderTimelineChart();
+  });
+}
+
+function goToStep(n) {
+  // Validate before going forward
+  if (n === 2) {
+    if (TL.startMin === null || TL.endMin === null) {
+      toast('Bitte Start- und Endzeit auswählen', 'err');
+      return;
+    }
+  }
+  if (n === 3) {
+    const parent = $('#b-parent').value.trim();
+    const phone = $('#b-phone').value.trim();
+    const kids = getKidsInForm();
+    if (!parent) return toast('Bitte deinen Namen angeben', 'err');
+    if (!phone) return toast('Bitte Telefonnummer angeben', 'err');
+    if (kids.length === 0) return toast('Bitte mindestens ein Kind mit Vorname eintragen', 'err');
+    const incomplete = kids.find(k => !k.first);
+    if (incomplete) return toast('Jedes Kind braucht mindestens einen Vornamen', 'err');
+    renderConfirmStep();
+  }
+
+  // Update step visibility
+  [1,2,3].forEach(s => {
+    const el = $('#bstep-' + s);
+    if (el) el.style.display = (s === n) ? '' : 'none';
+  });
+  // Update indicator
+  $$('.step-dot').forEach(dot => {
+    const s = parseInt(dot.dataset.step);
+    dot.classList.toggle('active', s === n);
+    dot.classList.toggle('done', s < n);
+  });
+}
+
+function renderConfirmStep() {
+  if (!bookCtx) return;
+  const d = new Date(bookCtx.dateK + 'T00:00');
+  const kids = getKidsInForm();
+  const parent = $('#b-parent').value.trim();
+  const phone = $('#b-phone').value.trim();
+  const html = `
+    <div class="confirm-row highlight">
+      <span class="cr-lb">Tag</span>
+      <span class="cr-vl">${dayNames[d.getDay()]}, ${fmtDate(d)}</span>
+    </div>
+    <div class="confirm-row highlight">
+      <span class="cr-lb">Zeit</span>
+      <span class="cr-vl">${fmtTime(TL.startMin)} – ${fmtTime(TL.endMin)}</span>
+    </div>
+    <div class="confirm-row">
+      <span class="cr-lb">Eltern</span>
+      <span class="cr-vl">${parent}</span>
+    </div>
+    <div class="confirm-row">
+      <span class="cr-lb">Telefon</span>
+      <span class="cr-vl">${phone}</span>
+    </div>
+    <div class="confirm-row">
+      <span class="cr-lb">${kids.length === 1 ? 'Kind' : 'Kinder'}</span>
+      <span class="cr-vl">${kids.map(k => k.full).join(', ')}</span>
+    </div>`;
+  $('#confirm-summary').innerHTML = html;
+}
+
+function closeBookModal() {
+  $('#book-modal').classList.remove('open');
+  bookCtx = null;
+}
+
+function addChild() {
+  const row = document.createElement('div');
+  row.className = 'child-row';
+  row.innerHTML = `
+    <input type="text" placeholder="Vorname" class="b-kid-first">
+    <input type="text" placeholder="Nachname" class="b-kid-last">
+    <button class="rm" onclick="removeChild(this)" title="Entfernen">×</button>`;
+  $('#b-children').appendChild(row);
+  refreshOccupancyPreview();
+}
+function removeChild(btn) {
+  const rows = $$('#b-children .child-row');
+  if (rows.length <= 1) return;
+  btn.closest('.child-row').remove();
+  refreshOccupancyPreview();
+}
+function getKidsInForm() {
+  const rows = $$('#b-children .child-row');
+  const kids = [];
+  for (const r of rows) {
+    const first = r.querySelector('.b-kid-first').value.trim();
+    const last = r.querySelector('.b-kid-last').value.trim();
+    if (first || last) {
+      kids.push({ first, last, full: [first, last].filter(Boolean).join(' ') });
+    }
+  }
+  return kids;
+}
+
+// ===== Time-Pill System (replaces old timeline slider) =====
+// State per modal-open. Keeps internal start/end in minutes-since-midnight.
+const TL = {
+  startMin: null,
+  endMin: null,
+  windowFrom: 0,
+  windowTo: 0,
+  snapStep: 15,
+  minDur: 30,
+  maxDur: 120
+};
+
+// Generate the start-time chip grid.
+// Each chip shows a time and a mini availability bar.
+function renderTimelineChart() {
+  if (!bookCtx) return;
+  const occ = getOccupancy(bookCtx.dateK, bookCtx.slotName);
+  if (!occ) return;
+  TL.windowFrom = parseTime(occ.window.from);
+  TL.windowTo = parseTime(occ.window.to);
+  renderStartChips();
+  renderEndChips();
+  renderTimelineSelection();
+  renderModalDemandPills();
+}
+
+function renderStartChips() {
+  const wrap = $('#tg-start');
+  if (!wrap || !bookCtx) return;
+  const occ = getOccupancy(bookCtx.dateK, bookCtx.slotName);
+  if (!occ) { wrap.innerHTML = ''; return; }
+  // Each chip = a possible start time. Eltern can pick from minDur to windowTo-minDur
+  // We allow any 15-min start where at least minDur (30) fits.
+  const chips = [];
+  for (let m = TL.windowFrom; m <= TL.windowTo - TL.minDur; m += TL.snapStep) {
+    chips.push(m);
+  }
+  wrap.innerHTML = chips.map(m => buildChipHtml(m, 'start')).join('');
+  wrap.querySelectorAll('.time-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      if (c.classList.contains('disabled')) return;
+      const t = parseInt(c.dataset.t);
+      TL.startMin = t;
+      // Default end = start + 2h (or clamp)
+      const defaultEnd = Math.min(t + 120, TL.windowTo);
+      // If current end isn't valid for this start, reset
+      if (TL.endMin === null || TL.endMin <= t || TL.endMin > t + TL.maxDur || TL.endMin > TL.windowTo) {
+        TL.endMin = defaultEnd;
+      }
+      $('#tg-step-end').style.display = '';
+      renderStartChips();
+      renderEndChips();
+      renderTimelineSelection();
+    });
+  });
+}
+
+function renderEndChips() {
+  const wrap = $('#tg-end');
+  const stepEnd = $('#tg-step-end');
+  if (!wrap || !bookCtx) return;
+  if (TL.startMin === null) {
+    stepEnd.style.display = 'none';
+    return;
+  }
+  stepEnd.style.display = '';
+  const occ = getOccupancy(bookCtx.dateK, bookCtx.slotName);
+  if (!occ) { wrap.innerHTML = ''; return; }
+  // End-chips: from startMin + minDur to startMin + maxDur (clamped to windowTo)
+  const lower = TL.startMin + TL.minDur;
+  const upper = Math.min(TL.startMin + TL.maxDur, TL.windowTo);
+  const chips = [];
+  for (let m = lower; m <= upper; m += TL.snapStep) {
+    chips.push(m);
+  }
+  wrap.innerHTML = chips.map(m => buildChipHtml(m, 'end')).join('');
+  wrap.querySelectorAll('.time-chip').forEach(c => {
+    c.addEventListener('click', () => {
+      if (c.classList.contains('disabled')) return;
+      const t = parseInt(c.dataset.t);
+      TL.endMin = t;
+      renderEndChips();
+      renderTimelineSelection();
+    });
+  });
+}
+
+// Build a single time-chip with its availability mini-bar.
+// kind: 'start' or 'end'.
+function buildChipHtml(timeMin, kind) {
+  const occ = getOccupancy(bookCtx.dateK, bookCtx.slotName);
+  const cap = occ.cap;
+  // For chip availability: look at the cell starting at timeMin.
+  // For a start chip we ask: how full is the next 15min cell?
+  // For an end chip we ask: how full is the last 15min cell (timeMin - 15)?
+  const lookMin = (kind === 'end') ? timeMin - 15 : timeMin;
+  const cell = occ.cells.find(c => c.time === lookMin);
+  const used = cell ? cell.count : 0;
+  const pct = Math.min(100, (used / cap) * 100);
+  const free = Math.max(0, cap - used);
+  const kidCount = Math.max(1, getKidsInForm().length || 1);
+  const isFull = (used + kidCount > cap);
+  const barCls = pct >= 100 ? 'full' : (pct >= 75 ? 'warn' : '');
+
+  let cls = 'time-chip';
+  if (isFull) cls += ' full';
+  // Highlight selection
+  if (kind === 'start' && TL.startMin === timeMin) cls += ' selected';
+  if (kind === 'end' && TL.endMin === timeMin) cls += ' selected';
+  // Highlight in-range
+  if (TL.startMin !== null && TL.endMin !== null) {
+    if (kind === 'start' && timeMin > TL.startMin && timeMin < TL.endMin) cls += ' in-range';
+    if (kind === 'end' && timeMin > TL.startMin && timeMin < TL.endMin) cls += ' in-range';
+  }
+
+  return `
+    <div class="${cls}" data-t="${timeMin}">
+      ${fmtTime(timeMin)}
+      <div class="chip-bar"><div class="chip-bar-fill ${barCls}" style="width:${pct}%"></div></div>
+    </div>`;
+}
+
+// Update summary box at the bottom and sync hidden inputs.
+function renderTimelineSelection() {
+  if (!bookCtx) return;
+  const sumBox = $('#tl-summary');
+  const sumTime = $('#tl-summary-time');
+  const sumDur = $('#tl-summary-dur');
+  const sumRight = $('#tl-summary-right');
+  if (!sumBox) return;
+
+  sumBox.classList.remove('valid','invalid');
+
+  if (TL.startMin === null) {
+    sumTime.textContent = 'Bitte Startzeit wählen';
+    sumDur.textContent = '—';
+    sumRight.innerHTML = '';
+    $('#b-start').value = '';
+    $('#b-end').value = '';
+    return;
+  }
+  if (TL.endMin === null) {
+    sumTime.textContent = `Start ${fmtTime(TL.startMin)} · jetzt Endzeit wählen`;
+    sumDur.textContent = '—';
+    sumRight.innerHTML = '';
+    $('#b-start').value = fmtTime(TL.startMin);
+    $('#b-end').value = '';
+    return;
+  }
+
+  $('#b-start').value = fmtTime(TL.startMin);
+  $('#b-end').value = fmtTime(TL.endMin);
+
+  const dur = TL.endMin - TL.startMin;
+  const kidCount = Math.max(1, getKidsInForm().length || 1);
+  const check = canBookRange(bookCtx.dateK, bookCtx.slotName, fmtTime(TL.startMin), fmtTime(TL.endMin), kidCount);
+
+  sumTime.textContent = `${fmtTime(TL.startMin)} – ${fmtTime(TL.endMin)}`;
+  const h = Math.floor(dur / 60), m = dur % 60;
+  const durStr = h > 0
+    ? `${h} Stunde${h>1?'n':''}${m>0?' '+m+' Min':''}`
+    : `${m} Minuten`;
+
+  if (!check.ok) {
+    sumBox.classList.add('invalid');
+    sumDur.textContent = `⚠ ${check.reason}`;
+    sumRight.innerHTML = '';
+  } else {
+    sumBox.classList.add('valid');
+    sumDur.textContent = `${durStr} · max. 2 Stunden`;
+
+    // Show min free count in the selected range
+    const occ = getOccupancy(bookCtx.dateK, bookCtx.slotName);
+    let minFree = occ.cap;
+    for (const c of occ.cells) {
+      if (c.time >= TL.startMin && c.time < TL.endMin) {
+        const free = occ.cap - c.count;
+        if (free < minFree) minFree = free;
+      }
+    }
+    sumRight.innerHTML = `Frei im Zeitraum<br><strong>${minFree} von ${occ.cap} Plätzen</strong>`;
+  }
+}
+
+function renderModalDemandPills() {
+  const pillsEl = $('#modal-demand-pills');
+  if (!pillsEl || !bookCtx) return;
+  const summary = slotFreeSummary(bookCtx.dateK, bookCtx.slotName);
+  const occ = getOccupancy(bookCtx.dateK, bookCtx.slotName);
+  const pct = Math.round((summary.used / summary.cap) * 100);
+  const pills = [];
+  if (summary.free === 0) {
+    pills.push(`<span class="demand-pill last">⚡ Ausgebucht</span>`);
+  } else if (summary.free <= 2) {
+    pills.push(`<span class="demand-pill last">⚡ Nur noch ${summary.free} ${summary.free===1?'Platz':'Plätze'}</span>`);
+  } else if (pct >= 50) {
+    pills.push(`<span class="demand-pill popular">🔥 Stark gefragt</span>`);
+  } else {
+    pills.push(`<span class="demand-pill" style="background:rgba(52,211,153,.10); border:1px solid rgba(52,211,153,.30); color:#a7f3d0;">✓ ${summary.free} Plätze frei</span>`);
+  }
+  if (occ.cells.length > 0) {
+    const peakCell = occ.cells.reduce((p, c) => c.count > p.count ? c : p, occ.cells[0]);
+    if (peakCell.count > 0 && peakCell.count / occ.cap >= 0.75) {
+      pills.push(`<span class="demand-pill popular">⏱ Um ${fmtTime(peakCell.time)} am vollsten</span>`);
+    }
+    const quietCell = occ.cells.reduce((p, c) => c.count < p.count ? c : p, occ.cells[0]);
+    if (quietCell.count === 0 && occ.cells.some(c => c.count > 0)) {
+      pills.push(`<span class="demand-pill" style="background:rgba(52,211,153,.10); border:1px solid rgba(52,211,153,.30); color:#a7f3d0;">💡 Um ${fmtTime(quietCell.time)} ganz frei</span>`);
+    }
+  }
+  pillsEl.innerHTML = pills.join('');
+}
+
+// Compatibility: kept as no-ops since we no longer have draggable interaction
+function attachTimelineEvents() { /* time-pills are bound on render */ }
+function renderTimelineQuickPicks() { /* no quick-picks in time-pill mode */ }
+
+// Compatibility aliases
+function refreshOccupancyPreview() { if (bookCtx) renderTimelineSelection(); }
+function refreshDuration() { if (bookCtx) renderTimelineSelection(); }
+
+// Last successful booking — for iCal download
+let lastBooking = null;
+
+// Simulated "other parents booking simultaneously" — for demo only.
+// In production with Supabase, this becomes a real SELECT ... FOR UPDATE
+// or INSERT ... WHERE NOT EXISTS check, not a probability.
+function simulateOtherUsersBookingNow(dateK, slotName) {
+  // Only simulate race-condition risk when the slot is already >70% full
+  const s = slotFreeSummary(dateK, slotName);
+  if (!s || s.free === 0) return false;
+  const usage = s.used / s.cap;
+  if (usage < 0.70) return false;
+  // 8% chance another parent grabs the last spot during form fill
+  return Math.random() < 0.08;
+}
+
+function submitBooking() {
+  const parent = $('#b-parent').value.trim();
+  const phone = $('#b-phone').value.trim();
+  const kids = getKidsInForm();
+  const member = $('#b-membership').checked;
+  const start = $('#b-start').value;
+  const end = $('#b-end').value;
+
+  if (!start || !end) return toast('Bitte Start- und Endzeit auswählen', 'err');
+  if (!parent) return toast('Bitte deinen Namen angeben', 'err');
+  if (!phone) return toast('Bitte Telefonnummer angeben', 'err');
+  if (kids.length === 0) return toast('Bitte mindestens ein Kind mit Vorname eintragen', 'err');
+  // Make sure each kid has at least a first name
+  const incomplete = kids.find(k => !k.first);
+  if (incomplete) return toast('Jedes Kind braucht mindestens einen Vornamen', 'err');
+  if (!member) return toast('Mitgliedschaft muss bestätigt werden', 'err');
+
+  // === RACE-CONDITION SAFETY ===
+  // Re-validate against current state RIGHT BEFORE insert.
+  // In production: this becomes a transactional Supabase call.
+  // If a competing booking landed first, the slot may now be full.
+  const check = canBookRange(bookCtx.dateK, bookCtx.slotName, start, end, kids.length);
+  if (!check.ok) return toast(check.reason, 'err');
+
+  // Demo: simulate that other parents may have been booking simultaneously.
+  // In production, this happens at the database level — not in JS.
+  if (simulateOtherUsersBookingNow(bookCtx.dateK, bookCtx.slotName)) {
+    showSoldOut(`Während du das Formular ausgefüllt hast, hat ein anderer Elternteil den Platz für ${start}–${end} reserviert.`);
+    return;
+  }
+
+  // Final check: even after the simulation, do a strict re-validation.
+  // This is the pattern that protects against true overbooking once
+  // Supabase backs the data: re-read the state, re-validate, then insert
+  // atomically. The DB itself rejects if capacity is exceeded.
+  const finalCheck = canBookRange(bookCtx.dateK, bookCtx.slotName, start, end, kids.length);
+  if (!finalCheck.ok) {
+    showSoldOut(finalCheck.reason);
+    return;
+  }
+
+  const code = gen6();
+  const newBooking = {
+    id: 'b_' + Math.random().toString(36).slice(2,9),
+    code, dateKey: bookCtx.dateK, slot: bookCtx.slotName,
+    start, end, parent, phone, kids,
+    createdAt: Date.now()
+  };
+  _state.bookings.push(newBooking);
+  lastBooking = newBooking;
+
+  const d = new Date(bookCtx.dateK + 'T00:00');
+  $('#success-summary').innerHTML =
+    `${dayNames[d.getDay()]}, ${fmtDate(d)} · ${start}–${end}<br>` +
+    `${kids.length} Kind${kids.length>1?'er':''}: ${kids.map(k=>k.full).join(', ')}`;
+  $('#book-step-form').style.display = 'none';
+  $('#book-step-success').style.display = '';
+
+  renderParentsView();
+}
+
+function showSoldOut(reason) {
+  $('#soldout-reason').textContent = reason;
+  $('#soldout-modal').classList.add('open');
+  // Also refresh the form so user sees fresh occupancy if they retry
+  refreshOccupancyPreview();
+}
+function closeSoldOut() {
+  $('#soldout-modal').classList.remove('open');
+}
+
+// === iCal Download ===
+function downloadICal() {
+  if (!lastBooking) return;
+  const b = lastBooking;
+  const d = new Date(b.dateKey + 'T00:00');
+  const [sh, sm] = b.start.split(':').map(Number);
+  const [eh, em] = b.end.split(':').map(Number);
+  const startDt = new Date(d); startDt.setHours(sh, sm, 0, 0);
+  const endDt = new Date(d); endDt.setHours(eh, em, 0, 0);
+
+  // Format as local time (floating, no Z) for simplicity
+  const toICal = dt =>
+    `${dt.getFullYear()}${pad(dt.getMonth()+1)}${pad(dt.getDate())}T${pad(dt.getHours())}${pad(dt.getMinutes())}00`;
+
+  const kidNames = b.kids.map(k => k.full).join(', ');
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//ELEMENTSJunior//Kinderbetreuung//DE',
+    'CALSCALE:GREGORIAN',
+    'BEGIN:VEVENT',
+    `UID:${b.id}@elementsjunior.local`,
+    `DTSTAMP:${toICal(new Date())}`,
+    `DTSTART:${toICal(startDt)}`,
+    `DTEND:${toICal(endDt)}`,
+    `SUMMARY:Kinderbetreuung – ELEMENTSJunior`,
+    `DESCRIPTION:Kinder: ${kidNames}\\nELEMENTSJunior am Henninger Turm\\nZum Absagen: Nachname auf der Website eingeben`,
+    'LOCATION:Elements Fitness und Wellness am Henninger Turm',
+    'BEGIN:VALARM',
+    'TRIGGER:-PT30M',
+    'ACTION:DISPLAY',
+    'DESCRIPTION:Kinderbetreuung in 30 Minuten',
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ].join('\r\n');
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `kinderbetreuung-${b.dateKey}.ics`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast('Kalender-Datei heruntergeladen', 'ok');
+}
+
+/* ============ Cancel by last name ============ */
+let cancelCtx = null;
+
+function openCancelDialog() {
+  $('#cancel-name-input').value = '';
+  $('#cancel-err').textContent = '';
+  $('#cancel-step-input').style.display = '';
+  $('#cancel-step-pick').style.display = 'none';
+  $('#cancel-step-confirm').style.display = 'none';
+  $('#cancel-modal').classList.add('open');
+  setTimeout(() => $('#cancel-name-input').focus(), 100);
+}
+function closeCancelModal() {
+  $('#cancel-modal').classList.remove('open');
+  cancelCtx = null;
+}
+function cancelBackToInput() {
+  $('#cancel-step-pick').style.display = 'none';
+  $('#cancel-step-confirm').style.display = 'none';
+  $('#cancel-step-input').style.display = '';
+  $('#cancel-err').textContent = '';
+  setTimeout(() => $('#cancel-name-input').focus(), 100);
+}
+// Enter-Key in Nachname-Feld triggert Suche
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('cancel-name-input');
+  if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') lookupCancel(); });
+});
+
+function lookupCancel() {
+  const name = $('#cancel-name-input').value.trim();
+  if (!name) {
+    $('#cancel-err').textContent = 'Bitte Nachnamen eingeben';
+    return;
+  }
+  // Match anywhere in parent name OR any kid's last name, case-insensitive
+  const needle = name.toLowerCase();
+  const matches = _state.bookings.filter(b => {
+    const parentMatch = b.parent.toLowerCase().includes(needle);
+    const kidMatch = b.kids.some(k => (k.last || '').toLowerCase().includes(needle));
+    // Only future or today bookings can be cancelled
+    const d = new Date(b.dateKey + 'T00:00');
+    return (parentMatch || kidMatch) && d >= today;
+  });
+
+  if (matches.length === 0) {
+    $('#cancel-err').textContent = 'Keine Reservierung unter diesem Namen gefunden';
+    return;
+  }
+  if (matches.length === 1) {
+    showCancelConfirm(matches[0]);
+    return;
+  }
+  // Multiple matches — show pick list
+  $('#cancel-err').textContent = '';
+  $('#cancel-step-input').style.display = 'none';
+  $('#cancel-step-pick').style.display = '';
+  // Sort by date asc
+  matches.sort((a, b) => a.dateKey.localeCompare(b.dateKey) || a.start.localeCompare(b.start));
+  $('#cancel-list').innerHTML = matches.map(b => {
+    const d = new Date(b.dateKey + 'T00:00');
+    return `
+      <div class="cancel-item" onclick="showCancelConfirm('${b.id}')">
+        <div class="cancel-item-day">${dayNames[d.getDay()]}, ${fmtDate(d)}</div>
+        <div class="cancel-item-meta">${b.start}–${b.end} · <strong>${b.parent}</strong> · ${b.kids.map(k=>k.full).join(', ')}</div>
+      </div>`;
+  }).join('');
+}
+
+function showCancelConfirm(arg) {
+  // Accept either a booking object (from single-match) or an id string (from list click)
+  const b = (typeof arg === 'string')
+    ? _state.bookings.find(bb => bb.id === arg)
+    : arg;
+  if (!b) return;
+  cancelCtx = b;
+  const d = new Date(b.dateKey + 'T00:00');
+  $('#cancel-details').innerHTML = `
+    <div class="dt-row"><span class="lb">Tag</span><span class="vl">${dayNames[d.getDay()]}, ${fmtDate(d)}</span></div>
+    <div class="dt-row"><span class="lb">Zeit</span><span class="vl">${b.start} – ${b.end}</span></div>
+    <div class="dt-row"><span class="lb">Eltern</span><span class="vl">${b.parent}</span></div>
+    <div class="dt-row"><span class="lb">Kinder</span><span class="vl">${b.kids.map(k=>k.full).join(', ')}</span></div>
+  `;
+  $('#cancel-step-input').style.display = 'none';
+  $('#cancel-step-pick').style.display = 'none';
+  $('#cancel-step-confirm').style.display = '';
+}
+function confirmCancel() {
+  if (!cancelCtx) return;
+  _state.bookings = _state.bookings.filter(b => b.id !== cancelCtx.id);
+  closeCancelModal();
+  toast('Reservierung abgesagt', 'ok');
+  renderParentsView();
+  if (staffUnlocked) renderStaffView();
+}
+
+/* ============ Staff ============ */
+let staffUnlocked = false;
+
+function unlockStaff() {
+  const pin = $('#staff-pin').value.trim();
+  if (pin === STAFF_PIN) {
+    staffUnlocked = true;
+    $('#staff-lock').style.display = 'none';
+    $('#staff-content').style.display = '';
+    renderStaffView();
+  } else {
+    $('#staff-pin-err').textContent = 'Falscher PIN';
+    $('#staff-pin').value = '';
+  }
+}
+$('#staff-pin')?.addEventListener('keydown', e => { if (e.key === 'Enter') unlockStaff(); });
+
+function renderStaffView() {
+  renderWeekLabel(staffWeekStart, '#staff-week-label');
+  const list = $('#staff-list');
+  list.innerHTML = '';
+
+  // If viewing the current week, skip days before today.
+  // For past or future weeks, show all 7 days.
+  const isCurrentWeek = staffWeekStart.getTime() === thisMonday.getTime();
+  const todayK = dateKey(today);
+
+  for (let i=0; i<7; i++) {
+    const d = addDays(staffWeekStart, i);
+    const k = dateKey(d);
+
+    // Skip days in the past within the current week
+    if (isCurrentWeek && d < today) continue;
+
+    const dayBookings = _state.bookings.filter(b => b.dateKey === k).sort((a,b) => a.start.localeCompare(b.start));
+    if (dayBookings.length === 0) continue;
+
+    const totalKids = dayBookings.reduce((s,b) => s + b.kids.length, 0);
+    const isToday = (k === todayK);
+    const section = document.createElement('div');
+    section.className = 'staff-day-section';
+    section.innerHTML = `
+      <div class="staff-day-title">
+        <span class="nm">${dayNames[d.getDay()]}, ${fmtDate(d)}${isToday ? ' <span class="today-tag" style="margin-left:6px;">heute</span>' : ''}</span>
+        <span class="ct">· ${dayBookings.length} Buchung${dayBookings.length>1?'en':''} · ${totalKids} Kind${totalKids>1?'er':''}</span>
+      </div>
+      <div class="bookings-table lg-surface">
+        <div class="bookings-head">
+          <div>Zeit</div><div>Eltern</div><div>Kinder</div><div>Telefon</div><div>Status</div><div></div>
+        </div>
+        ${dayBookings.map(b => `
+          <div class="booking-row">
+            <div class="b-time">${b.start}–${b.end}</div>
+            <div class="b-name">${b.parent}</div>
+            <div class="b-kids">${b.kids.map(k=>k.full).join(', ')}</div>
+            <div class="b-phone">${b.phone}</div>
+            <div class="b-status">Bestätigt</div>
+            <button class="b-action" onclick="staffCancelBooking('${b.id}')">Stornieren</button>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    list.appendChild(section);
+  }
+
+  if (list.children.length === 0) {
+    list.innerHTML = '<div class="lg-surface" style="padding:40px; text-align:center; border-radius:18px; color:var(--t3);">Keine Buchungen in dieser Woche</div>';
+  }
+}
+
+function staffCancelBooking(id) {
+  if (!confirm('Diese Buchung wirklich stornieren?')) return;
+  _state.bookings = _state.bookings.filter(b => b.id !== id);
+  toast('Buchung storniert', 'ok');
+  renderStaffView();
+  renderParentsView();
+}
+
+/* ============ Admin ============ */
+let adminUnlocked = false;
+
+function unlockAdmin() {
+  const pin = $('#admin-pin').value.trim();
+  if (pin === ADMIN_PIN) {
+    adminUnlocked = true;
+    $('#admin-lock').style.display = 'none';
+    $('#admin-content').style.display = '';
+    renderAdminView();
+  } else {
+    $('#admin-pin-err').textContent = 'Falscher PIN';
+    $('#admin-pin').value = '';
+  }
+}
+$('#admin-pin')?.addEventListener('keydown', e => { if (e.key === 'Enter') unlockAdmin(); });
+
+// Admin: aktuell ausgewählter Tag (Index 0-6 in der Woche)
+let selectedAdminDay = 0;
+
+function renderAdminView() {
+  renderWeekLabel(adminWeekStart, '#admin-week-label');
+  renderAdminTabs();
+  renderAdminDayDetail();
+}
+
+function renderAdminTabs() {
+  const tabs = $('#admin-day-tabs');
+  if (!tabs) return;
+  const isCurrentWeek = adminWeekStart.getTime() === thisMonday.getTime();
+  const todayK = dateKey(today);
+
+  // If selectedAdminDay points to a past day in current week, adjust to today
+  if (isCurrentWeek) {
+    const selD = addDays(adminWeekStart, selectedAdminDay);
+    if (selD < today) {
+      // jump to today
+      selectedAdminDay = Math.floor((today - adminWeekStart) / 86400000);
+    }
+  }
+
+  let html = '';
+  for (let i = 0; i < 7; i++) {
+    const d = addDays(adminWeekStart, i);
+    const k = dateKey(d);
+    const isToday = (k === todayK);
+    const isPast = (isCurrentWeek && d < today);
+    const cap = _state.capacities[k];
+    const hasCfg = cap && (cap.morning || cap.afternoon);
+    const bookingsCount = _state.bookings.filter(b => b.dateKey === k).reduce((s,b)=>s+b.kids.length, 0);
+
+    let dotCls = hasCfg ? '' : 'locked';
+    if (isPast) dotCls = 'locked';
+
+    let label = hasCfg ? `${bookingsCount} Kinder` : 'leer';
+    if (isPast) label = 'vorbei';
+
+    const cls = 'day-tab'
+      + (i === selectedAdminDay ? ' active' : '')
+      + (isPast ? ' locked' : '');
+
+    html += `
+      <button class="${cls}" data-i="${i}">
+        <span class="dt-name">${isToday ? 'Heute' : dayNames[d.getDay()].slice(0,2)}</span>
+        <span class="dt-day">${pad(d.getDate())}</span>
+        <span class="dt-dot ${dotCls}"></span>
+        <span class="dt-status">${label}</span>
+      </button>`;
+  }
+  tabs.innerHTML = html;
+  tabs.querySelectorAll('.day-tab').forEach(t => {
+    t.addEventListener('click', () => {
+      selectedAdminDay = parseInt(t.dataset.i);
+      renderAdminTabs();
+      renderAdminDayDetail();
+    });
+  });
+}
+
+function renderAdminDayDetail() {
+  const wrap = $('#admin-day-detail');
+  if (!wrap) return;
+  const d = addDays(adminWeekStart, selectedAdminDay);
+  const k = dateKey(d);
+  const isToday = (k === dateKey(today));
+  if (!_state.capacities[k]) _state.capacities[k] = { morning:null, afternoon:null };
+  const cap = _state.capacities[k];
+
+  // Bookings on this day
+  const dayBookings = _state.bookings.filter(b => b.dateKey === k);
+  const totalKidsBooked = dayBookings.reduce((s,b) => s + b.kids.length, 0);
+  const hasBookings = dayBookings.length > 0;
+
+  wrap.innerHTML = `
+    <div class="day-detail lg-surface">
+      <div class="dd-header">
+        <div class="dd-header-left">
+          <h2>${isToday ? 'Heute' : dayNames[d.getDay()]}</h2>
+          <div class="dd-date">${fmtDate(d)}</div>
+        </div>
+        <div class="dd-header-right">${hasBookings ? `<strong>${dayBookings.length}</strong> Buchung${dayBookings.length>1?'en':''} · <strong>${totalKidsBooked}</strong> Kind${totalKidsBooked>1?'er':''}` : 'noch keine Buchungen'}</div>
+      </div>
+
+      ${hasBookings ? `
+        <div class="admin-warning" style="display:block; margin-bottom:18px;">
+          ⚠ Reduzierung der Kapazität unter die Anzahl bereits gebuchter Kinder ist nicht erlaubt.
+        </div>` : ''}
+
+      <div class="admin-blocks-grid">
+        ${renderAdminBlock(k, 'morning', 'Vormittag', cap.morning)}
+        ${renderAdminBlock(k, 'afternoon', 'Nachmittag', cap.afternoon)}
+      </div>
+
+      <div class="admin-actions">
+        <button class="btn btn-ghost btn-sm" onclick="renderAdminDayDetail()">Zurücksetzen</button>
+        <button class="btn btn-primary btn-sm" onclick="saveAdminCapacities()">Speichern</button>
+      </div>
+    </div>`;
+}
+
+function renderAdminBlock(dateK, slotName, label, slot) {
+  const v = slot || { from:'', to:'', cap:'' };
+  return `
+    <div class="admin-block">
+      <div class="admin-block-title">${label}</div>
+      <div class="admin-block-grid">
+        <div><label>Von</label><input type="time" step="900" value="${v.from}" data-dk="${dateK}" data-sl="${slotName}" data-f="from"></div>
+        <div><label>Bis</label><input type="time" step="900" value="${v.to}" data-dk="${dateK}" data-sl="${slotName}" data-f="to"></div>
+        <div><label>Plätze</label><input type="number" min="0" max="50" value="${v.cap}" data-dk="${dateK}" data-sl="${slotName}" data-f="cap"></div>
+      </div>
+    </div>`;
+}
+
+function saveAdminCapacities() {
+  // Read only the inputs from the current day-detail view
+  const inputs = $$('#admin-day-detail input');
+  const pending = {};
+  inputs.forEach(inp => {
+    const dk = inp.dataset.dk, sl = inp.dataset.sl, f = inp.dataset.f;
+    if (!pending[dk]) pending[dk] = { morning:{}, afternoon:{} };
+    pending[dk][sl][f] = inp.value;
+  });
+  for (const dk in pending) {
+    for (const sl of ['morning','afternoon']) {
+      const s = pending[dk][sl];
+      const hasAny = s.from || s.to || s.cap;
+      if (!hasAny) { pending[dk][sl] = null; continue; }
+      if (!s.from || !s.to || !s.cap) {
+        toast('Unvollständige Angabe — alle drei Felder pro Block ausfüllen', 'err'); return;
+      }
+      if (parseTime(s.to) <= parseTime(s.from)) {
+        toast(`${sl === 'morning' ? 'Vormittag' : 'Nachmittag'}: Endzeit muss nach Startzeit liegen`, 'err'); return;
+      }
+      const dayBookings = _state.bookings.filter(b => b.dateKey === dk && b.slot === sl);
+      const totalKids = dayBookings.reduce((sum,b)=>sum+b.kids.length, 0);
+      if (Number(s.cap) < totalKids) {
+        toast(`${sl === 'morning' ? 'Vormittag' : 'Nachmittag'}: Schon ${totalKids} Kinder gebucht — Kapazität nicht unter ${totalKids}`, 'err'); return;
+      }
+      for (const b of dayBookings) {
+        if (parseTime(b.start) < parseTime(s.from) || parseTime(b.end) > parseTime(s.to)) {
+          toast(`${sl === 'morning' ? 'Vormittag' : 'Nachmittag'}: Buchung ${b.start}-${b.end} liegt außerhalb der neuen Zeit`, 'err'); return;
+        }
+      }
+      pending[dk][sl] = { from: s.from, to: s.to, cap: Number(s.cap) };
+    }
+    _state.capacities[dk] = pending[dk];
+  }
+  toast('Gespeichert', 'ok');
+  renderAdminView();
+  renderParentsView();
+  if (staffUnlocked) renderStaffView();
+}
+
+function resetAdminForm() { renderAdminDayDetail(); }
+
+/* ============ Routing via URL Hash ============ */
+function goHome() {
+  history.replaceState(null, '', window.location.pathname);
+  showView('parents');
+}
+function showView(v) {
+  $$('.view').forEach(view => view.classList.remove('active'));
+  $('#view-' + v).classList.add('active');
+  // Header is parent-specific; hide on staff/admin
+  const hub = document.querySelector('header.hub');
+  if (hub) hub.style.display = (v === 'parents') ? '' : 'none';
+  const hint = $('#access-hint');
+  if (hint) hint.style.display = (v === 'parents') ? '' : 'none';
+  if (v === 'parents') renderParentsView();
+  else if (v === 'staff' && staffUnlocked) renderStaffView();
+  else if (v === 'admin' && adminUnlocked) renderAdminView();
+}
+function handleHash() {
+  const h = window.location.hash.replace('#','');
+  if (h === 'staff') showView('staff');
+  else if (h === 'admin') showView('admin');
+  else showView('parents');
+}
+window.addEventListener('hashchange', handleHash);
+
+/* ============ Week Nav ============ */
+// Eltern: keine Wochen-Navigation (Rolling 7 Days)
+$('#staff-wk-prev').addEventListener('click', () => { staffWeekStart = addDays(staffWeekStart, -7); renderStaffView(); });
+$('#staff-wk-next').addEventListener('click', () => { staffWeekStart = addDays(staffWeekStart, 7); renderStaffView(); });
+$('#staff-wk-today').addEventListener('click', () => { staffWeekStart = new Date(thisMonday); renderStaffView(); });
+$('#admin-wk-prev').addEventListener('click', () => { adminWeekStart = addDays(adminWeekStart, -7); renderAdminView(); });
+$('#admin-wk-next').addEventListener('click', () => { adminWeekStart = addDays(adminWeekStart, 7); renderAdminView(); });
+$('#admin-wk-today').addEventListener('click', () => { adminWeekStart = new Date(thisMonday); renderAdminView(); });
+
+/* ============ Toast ============ */
+let toastTimer;
+function toast(msg, type='') {
+  const t = $('#toast');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Live clock update every 30s
+setInterval(updateNowPill, 30000);
+
+// === Countdown ticker for lock-teasers ===
+// Updates every second. When a teaser hits 0, re-render the parents view
+// so the day flips from "locked" to "bookable" with animation.
+function tickCountdowns() {
+  const teasers = $$('.lock-teaser[data-open-at]');
+  if (teasers.length === 0) return;
+  const now = Date.now();
+  let anyFlipped = false;
+  for (const t of teasers) {
+    const openAt = new Date(t.dataset.openAt).getTime();
+    const diff = openAt - now;
+    const cd = t.querySelector('[data-cd]');
+    if (!cd) continue;
+    if (diff <= 0) {
+      anyFlipped = true;
+      continue;
+    }
+    const totalSec = Math.floor(diff / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    // Urgent if under 1 hour
+    if (diff < 3600 * 1000) {
+      t.classList.add('urgent');
+      cd.innerHTML = `<span>${pad(m)}</span><span class="ctu">min</span><span>${pad(s)}</span><span class="ctu">sek</span>`;
+    } else {
+      t.classList.remove('urgent');
+      if (h >= 24) {
+        const d = Math.floor(h / 24);
+        const hh = h % 24;
+        cd.innerHTML = `<span>${d}</span><span class="ctu">t</span><span>${hh}</span><span class="ctu">h</span><span>${pad(m)}</span><span class="ctu">min</span>`;
+      } else {
+        cd.innerHTML = `<span>${pad(h)}</span><span class="ctu">h</span><span>${pad(m)}</span><span class="ctu">min</span><span>${pad(s)}</span><span class="ctu">sek</span>`;
+      }
+    }
+  }
+  if (anyFlipped) {
+    // A day just became bookable — trigger flip animation, then re-render
+    teasers.forEach(t => {
+      if (new Date(t.dataset.openAt).getTime() <= now) {
+        t.style.animation = 'unlockFlip .8s var(--ease-out) forwards';
+      }
+    });
+    setTimeout(() => renderParentsView(), 900);
+  }
+}
+setInterval(tickCountdowns, 1000);
+
+// Initial
+handleHash();
+</script>
+
+</body>
+</html>
